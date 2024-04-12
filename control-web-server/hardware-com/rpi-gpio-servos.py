@@ -19,10 +19,10 @@
 #p.stop()                 # At the end of the program, stop the PWM
 #GPIO.cleanup()           # Resets the GPIO pins back to defaults
 
+"""
 import gpiod
 LED_PIN = 17
 BUTTON_PIN = 27
-
 
 chip = gpiod.Chip('gpiochip4')
 led_line = chip.get_line(LED_PIN)
@@ -39,3 +39,16 @@ try:
 finally:
    led_line.release()
 button_line.release()
+"""
+from gpiozero import Servo
+from time import sleep
+
+servo = Servo(17)
+
+while True:
+    servo.min()
+    sleep(2)
+    servo.mid()
+    sleep(2)
+    servo.max()
+    sleep(2)
