@@ -3,6 +3,7 @@ When you need to throw a raspberry pi under water and control it over wifi
 
 # List of code-inspiration
 - [raspi-cam-srv](https://github.com/signag/raspi-cam-srv)
+- [octoprint](https://github.com/OctoPrint/OctoPrint)
 
 
 # Python newbie commands
