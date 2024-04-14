@@ -1,4 +1,5 @@
 # command to install dependency: https://pypi.org/project/adafruit-circuitpython-ina219/
+# code tutorial: https://learn.adafruit.com/adafruit-ina219-current-sensor-breakout/python-circuitpython#full-example-code-2997919
 
 # SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
 # SPDX-License-Identifier: MIT
@@ -13,7 +14,7 @@ from adafruit_ina219 import ADCResolution, BusVoltageRange, INA219
 i2c_bus = board.I2C()  # uses board.SCL and board.SDA
 # i2c_bus = board.STEMMA_I2C()  # For using the built-in STEMMA QT connector on a microcontroller
 
-ina219 = INA219(i2c_bus, 0x41)
+ina219 = INA219(i2c_bus, 0x41)  # address changed by soldering A0
 
 print("ina219 test")
 
@@ -53,4 +54,4 @@ while True:
         print("Internal Math Overflow Detected!")
         print("")
 
-    time.sleep(2)
+    time.sleep(0.2)
