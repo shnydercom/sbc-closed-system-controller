@@ -32,6 +32,16 @@ def tilt_to_max():
     return True
 
 
+def tilt_by(relative_angle):
+    new_angle = kit.servo[nodder_id].angle + relative_angle
+    if new_angle > nodder_max_range:
+        return False
+    if new_angle < 0:
+        return False
+    kit.servo[nodder_id].angle = new_angle
+    return True
+
+
 def pan_to_min():
     kit.servo[turner_id].angle = 0
     return True
@@ -44,4 +54,14 @@ def pan_to_middle():
 
 def pan_to_max():
     kit.servo[turner_id].angle = turner_max_range
+    return True
+
+
+def pan_by(relative_angle):
+    new_angle = kit.servo[turner_id].angle + relative_angle
+    if new_angle > turner_max_range:
+        return False
+    if new_angle < 0:
+        return False
+    kit.servo[turner_id].angle = new_angle
     return True

@@ -13,6 +13,14 @@ kit = ServoKit(channels=16)
 servo_id = 0
 max_range = 120
 
+# more or less soft rotation
+# range_step = 1
+# sleep_time = 0.01
+
+# skipping in 30 degree steps, relatively smooth
+range_step = 30
+sleep_time = 0.7
+
 # kit.continuous_servo[1].throttle = 1
 # kit.continuous_servo[1].throttle = -0.1
 
@@ -24,14 +32,14 @@ max_range = 120
 # kit.servo[servo_id].angle = 0
 # kit.servo[servo_id].set_pulse_width_range(000, 5000)
 while True:
-    for rotation in range(max_range):
+    for rotation in range(0, max_range, range_step):
         kit.servo[0].angle = rotation
         kit.servo[1].angle = rotation
         print(rotation)
-        sleep(0.1)
+        sleep(sleep_time)
 
-    for rotation in range(max_range):
+    for rotation in range(0, max_range, range_step):
         kit.servo[0].angle = max_range - rotation
         kit.servo[1].angle = max_range - rotation
         print(max_range - rotation)
-        sleep(0.1)
+        sleep(sleep_time)
