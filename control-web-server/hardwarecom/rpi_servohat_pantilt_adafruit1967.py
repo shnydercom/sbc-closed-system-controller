@@ -18,50 +18,64 @@ kit.servo[turner_id].actuation_range = turner_max_range
 
 
 def tilt_to_min():
-    kit.servo[nodder_id].angle = 0
-    return True
+    new_angle = 0
+    return tilt_angle(new_angle)
 
 
 def tilt_to_middle():
-    kit.servo[nodder_id].angle = nodder_max_range / 2
-    return True
+    new_angle = nodder_max_range / 2
+    return tilt_angle(new_angle)
 
 
 def tilt_to_max():
-    kit.servo[nodder_id].angle = nodder_max_range
-    return True
+    new_angle = nodder_max_range
+    return tilt_angle(new_angle)
 
 
-def tilt_by(relative_angle):
-    new_angle = kit.servo[nodder_id].angle + relative_angle
+def tilt_by(relative_angle: float):
+    new_angle = kit.servo[nodder_id].angle + round(relative_angle)
     if new_angle > nodder_max_range:
-        return False
+        new_angle = nodder_max_range
     if new_angle < 0:
-        return False
-    kit.servo[nodder_id].angle = new_angle
-    return True
+        new_angle = 0
+    return tilt_angle(new_angle)
 
 
 def pan_to_min():
-    kit.servo[turner_id].angle = 0
-    return True
+    new_angle = 0
+    return pan_angle(new_angle)
 
 
 def pan_to_middle():
-    kit.servo[turner_id].angle = turner_max_range / 2
-    return True
+    new_angle = turner_max_range / 2
+    return pan_angle(new_angle)
 
 
 def pan_to_max():
-    kit.servo[turner_id].angle = turner_max_range
-    return True
+    new_angle = turner_max_range
+    return pan_angle(new_angle)
 
 
-def pan_by(relative_angle):
-    new_angle = kit.servo[turner_id].angle + relative_angle
+def pan_by(relative_angle: float):
+    new_angle = kit.servo[turner_id].angle + round(relative_angle)
     if new_angle > turner_max_range:
-        return False
+        new_angle = turner_max_range
     if new_angle < 0:
-        return False
-    kit.servo[turner_id].angle = new_angle
-    return True
+        new_angle = 0
+    return pan_angle(new_angle)
+
+
+def pan_angle(absolute_angle):
+    """
+    function for internal use to return the target angle and perform the servo motion
+    """
+    kit.servo[turner_id].angle = absolute_angle
+    return absolute_angle
+
+
+def tilt_angle(absolute_angle):
+    """
+    function for internal use to return the target angle and perform the servo motion
+    """
+    kit.servo[nodder_id].angle = absolute_angle
+    return absolute_angle
