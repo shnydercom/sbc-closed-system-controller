@@ -16,6 +16,20 @@ video_config = picam2.create_video_configuration(
 picam2.configure(video_config)
 encoder1 = H264Encoder(1000000, repeat=True)
 
+
+# encoder = JpegEncoder(q=70)
+# picam2.start_recording(encoder, "test.mjpeg", pts="timestamp.txt")
+
+# import libcamera
+# preview_config = picam2.create_preview_configuration()
+# preview_config["transform"] = libcamera.Transform(hflip=1, vflip=1)
+# picam2.configure(preview_config)
+
+# Obtain the current camera control values in the image metadata.
+# preview_config = picam2.create_preview_configuration()
+# picam2.capture_metadata()
+encoder = H264Encoder(10000000)
+picam2.start_recording(encoder, "test.h264", pts="timestamp.txt")
 """
 picam2 = Picamera2()
 video_config = picam2.create_video_configuration(
