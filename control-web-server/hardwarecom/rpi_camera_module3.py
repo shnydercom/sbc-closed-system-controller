@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+# example code repo: https://github.com/raspberrypi/picamera2/tree/main/examples
 from threading import Condition
 
 from picamera2 import Picamera2
