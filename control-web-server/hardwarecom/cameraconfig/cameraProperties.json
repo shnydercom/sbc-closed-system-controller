@@ -1,0 +1,45 @@
+{
+    "_hasFocus": true,
+    "_hasFlicker": true,
+    "_hasHdr": true,
+    "_model": "imx708_wide",
+    "_unitCellSize": [
+        1400,
+        1400
+    ],
+    "_location": 2,
+    "_rotation": 180,
+    "_pixelArraySize": [
+        4608,
+        2592
+    ],
+    "_pixelArrayActiveAreas": [
+        [
+            16,
+            24,
+            4608,
+            2592
+        ]
+    ],
+    "_colorFilterArrangement": 0,
+    "_scalerCropMaximum": [
+        0,
+        0,
+        0,
+        0
+    ],
+    "_systemDevices": [
+        20755,
+        20756,
+        20757,
+        20758,
+        20759,
+        20760,
+        20761,
+        20739,
+        20740,
+        20741,
+        20743,
+        20744
+    ]
+}

@@ -54,7 +54,7 @@ while True:
     print("Shunt Current  : {:7.4f}  A".format(currentA / 1000))
     print("Power Calc.    : {:8.5f} W".format(bus_voltageA * (currentA / 1000)))
     print("Power Register : {:6.3f}   W".format(powerA))
-    print("")
+    print("B:")
 
     # Check internal calculations haven't overflowed (doesn't detect ADC overflows)
     if ina219A.overflow:

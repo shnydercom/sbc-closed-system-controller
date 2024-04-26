@@ -1,0 +1,25 @@
+{
+    "_id": "FOTO",
+    "_use_case": "Photo",
+    "_transform_hflip": false,
+    "_transform_vflip": false,
+    "_colour_space": "sYCC",
+    "_buffer_count": 1,
+    "_queue": false,
+    "_display": null,
+    "_encode": null,
+    "_sensor_mode": "2",
+    "_stream": "main",
+    "_stream_size": [
+        4608,
+        2592
+    ],
+    "_stream_size_align": true,
+    "_format": "RGB888",
+    "_controls": {
+        "FrameDurationLimits": [
+            100,
+            1000000000
+        ]
+    }
+}

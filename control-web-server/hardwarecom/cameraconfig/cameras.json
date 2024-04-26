@@ -1,0 +1,10 @@
+[
+    {
+        "_model": "imx708_wide",
+        "_isUsb": false,
+        "_location": 2,
+        "_rotation": 180,
+        "_id": "/base/axi/pcie@120000/rp1/i2c@88000/imx708@1a",
+        "_num": 0
+    }
+]

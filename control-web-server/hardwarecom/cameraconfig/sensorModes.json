@@ -1,0 +1,79 @@
+[
+    {
+        "_id": "0",
+        "_format": {
+            "packing": "CSI2P",
+            "bit_depth": 10,
+            "bayer_order": "RGGB"
+        },
+        "_unpacked": "SRGGB10",
+        "_bit_depth": 10,
+        "_size": [
+            1536,
+            864
+        ],
+        "_fps": 120.13,
+        "_crop_limits": [
+            768,
+            432,
+            3072,
+            1728
+        ],
+        "_exposure_limits": [
+            9,
+            null
+        ]
+    },
+    {
+        "_id": "1",
+        "_format": {
+            "packing": "CSI2P",
+            "bit_depth": 10,
+            "bayer_order": "RGGB"
+        },
+        "_unpacked": "SRGGB10",
+        "_bit_depth": 10,
+        "_size": [
+            2304,
+            1296
+        ],
+        "_fps": 56.03,
+        "_crop_limits": [
+            0,
+            0,
+            4608,
+            2592
+        ],
+        "_exposure_limits": [
+            13,
+            77208384,
+            null
+        ]
+    },
+    {
+        "_id": "2",
+        "_format": {
+            "packing": "CSI2P",
+            "bit_depth": 10,
+            "bayer_order": "RGGB"
+        },
+        "_unpacked": "SRGGB10",
+        "_bit_depth": 10,
+        "_size": [
+            4608,
+            2592
+        ],
+        "_fps": 14.35,
+        "_crop_limits": [
+            0,
+            0,
+            4608,
+            2592
+        ],
+        "_exposure_limits": [
+            26,
+            112015443,
+            null
+        ]
+    }
+]
