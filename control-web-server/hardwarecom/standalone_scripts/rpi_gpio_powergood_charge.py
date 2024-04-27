@@ -1,6 +1,7 @@
 # documentation here: https://pypi.org/project/gpiod/
+# doesn't seem to work yet, preferring gpiozero
 import gpiod
-from gpiod.line import Direction, Value
+from gpiod.line import Direction, Value, Drive, Edge
 import time
 
 with gpiod.Chip("/dev/gpiochip4") as chip:
@@ -17,10 +18,14 @@ with gpiod.request_lines(
     consumer="blink-example",
     config={
         PGOOD_PIN: gpiod.LineSettings(
-            direction=Direction.INPUT, active_low=True  # , output_value=Value.ACTIVE
+            direction=Direction.INPUT,
+            drive=Drive.PUSH_PULL,
+            active_low=False,
         ),
         CHG_PIN: gpiod.LineSettings(
-            direction=Direction.INPUT, active_low=True  # , output_value=Value.ACTIVE
+            direction=Direction.INPUT,
+            drive=Drive.PUSH_PULL,
+            active_low=True,
         ),
     },
 ) as request:
