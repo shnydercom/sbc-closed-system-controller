@@ -43,3 +43,24 @@ while True:
         kit.servo[1].angle = max_range - rotation
         print(max_range - rotation)
         sleep(sleep_time)
+
+    # rotations to get full maxium range of motion (avoid obstacles while building)
+    for rotation in range(0, max_range, range_step):
+        kit.servo[0].angle = rotation
+        print(rotation)
+        sleep(sleep_time)
+
+    for rotation in range(0, max_range, range_step):
+        kit.servo[1].angle = rotation
+        print(rotation)
+        sleep(sleep_time)
+
+    for rotation in range(0, max_range, range_step):
+        kit.servo[0].angle = max_range - rotation
+        print(max_range - rotation)
+        sleep(sleep_time)
+
+    for rotation in range(0, max_range, range_step):
+        kit.servo[1].angle = max_range - rotation
+        print(max_range - rotation)
+        sleep(sleep_time)
