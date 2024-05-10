@@ -11,4 +11,4 @@ while True:
     [pgood_value, chg_value] = [pgood_input.value, pgood_chg.value]
     print("power good: {}".format(pgood_value))
     print("charging: {}".format(chg_value))
-    time.sleep(1)
+    time.sleep(0.1)

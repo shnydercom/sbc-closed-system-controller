@@ -48,6 +48,7 @@ while True:
     powerA = ina219A.power  # power in watts
 
     # ina219A measure bus voltage on the load side. So PSU voltage = bus_voltage + shunt_voltage
+    print("A:")
     print("Voltage (VIN+) : {:6.3f}   V".format(bus_voltageA + shunt_voltageA))
     print("Voltage (VIN-) : {:6.3f}   V".format(bus_voltageA))
     print("Shunt Voltage  : {:8.5f} V".format(shunt_voltageA))
@@ -80,4 +81,4 @@ while True:
         print("Internal Math Overflow Detected!")
         print("")
 
-    time.sleep(0.2)
+    time.sleep(0.1)

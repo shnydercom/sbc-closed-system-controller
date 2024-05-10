@@ -12,7 +12,9 @@ PGOOD_PIN = 20  # purple
 CHG_PIN = 21
 chip = gpiod.Chip("/dev/gpiochip4")
 
-
+####
+###    NOT WORKING WELL!!!
+####
 with gpiod.request_lines(
     "/dev/gpiochip4",
     consumer="blink-example",
@@ -20,12 +22,13 @@ with gpiod.request_lines(
         PGOOD_PIN: gpiod.LineSettings(
             direction=Direction.INPUT,
             drive=Drive.PUSH_PULL,
-            active_low=False,
+            active_low=True,
         ),
         CHG_PIN: gpiod.LineSettings(
             direction=Direction.INPUT,
             drive=Drive.PUSH_PULL,
             active_low=True,
+            edge_detection=Edge.BOTH,
         ),
     },
 ) as request:
@@ -33,4 +36,4 @@ with gpiod.request_lines(
         [pgood_value, chg_value] = request.get_values([PGOOD_PIN, CHG_PIN])
         print("power good: {}".format(pgood_value))
         print("charging: {}".format(chg_value))
-        time.sleep(1)
+        time.sleep(0.1)
