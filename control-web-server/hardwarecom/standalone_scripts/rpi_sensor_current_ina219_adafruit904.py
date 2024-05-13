@@ -8,19 +8,18 @@
 
 import time
 import board
-from adafruit_ina219 import ADCResolution, BusVoltageRange, INA219
-
+from adafruit_ina219 import ADCResolution, BusVoltageRange, INA219, Mode, Gain
 
 i2c_bus = board.I2C()  # uses board.SCL and board.SDA
 # i2c_bus = board.STEMMA_I2C()  # For using the built-in STEMMA QT connector on a microcontroller
 
 ina219A = INA219(i2c_bus, 0x41)  # address changed by soldering A0
-ina219B = INA219(i2c_bus, 0x44)
+# ina219B = INA219(i2c_bus, 0x44)
 
 print("ina219 test")
 
 # display some of the advanced field (just to test)
-print("Config register:")
+print("Config register A:")
 print("  bus_voltage_range:    0x%1X" % ina219A.bus_voltage_range)
 print("  gain:                 0x%1X" % ina219A.gain)
 print("  bus_adc_resolution:   0x%1X" % ina219A.bus_adc_resolution)
@@ -28,17 +27,33 @@ print("  shunt_adc_resolution: 0x%1X" % ina219A.shunt_adc_resolution)
 print("  mode:                 0x%1X" % ina219A.mode)
 print("")
 
+## Sensor B is dead, after showing increasingly wrong(er) data
+"""
+# display some of the advanced field (just to test)
+print("Config register B:")
+print("  bus_voltage_range:    0x%1X" % ina219B.bus_voltage_range)
+print("  gain:                 0x%1X" % ina219B.gain)
+print("  bus_adc_resolution:   0x%1X" % ina219B.bus_adc_resolution)
+print("  shunt_adc_resolution: 0x%1X" % ina219B.shunt_adc_resolution)
+print("  mode:                 0x%1X" % ina219B.mode)
+print("")
+# exit()
+"""
 # optional : change configuration to use 32 samples averaging for both bus voltage and shunt voltage
 ina219A.bus_adc_resolution = ADCResolution.ADCRES_12BIT_32S
 ina219A.shunt_adc_resolution = ADCResolution.ADCRES_12BIT_32S
 # optional : change voltage range to 16V
 ina219A.bus_voltage_range = BusVoltageRange.RANGE_16V
-
+ina219A.set_calibration_16V_400mA()
+"""
 # optional : change configuration to use 32 samples averaging for both bus voltage and shunt voltage
 ina219B.bus_adc_resolution = ADCResolution.ADCRES_12BIT_32S
 ina219B.shunt_adc_resolution = ADCResolution.ADCRES_12BIT_32S
 # optional : change voltage range to 16V
 ina219B.bus_voltage_range = BusVoltageRange.RANGE_16V
+ina219B.mode = Mode.
+
+ina219B.set_calibration_32V_1A()"""
 
 # measure and display loop
 while True:
@@ -62,6 +77,8 @@ while True:
         print("Internal Math Overflow Detected!")
         print("")
 
+    # B experienced bit shifting problems: https://forums.raspberrypi.com/viewtopic.php?t=286270
+    """
     bus_voltageB = ina219B.bus_voltage  # voltage on V- (load side)
     shunt_voltageB = ina219B.shunt_voltage  # voltage between V+ and V- across the shunt
     currentB = ina219B.current  # current in mA
@@ -75,10 +92,13 @@ while True:
     print("Power Calc.    : {:8.5f} W".format(bus_voltageB * (currentB / 1000)))
     print("Power Register : {:6.3f}   W".format(powerB))
     print("")
+    print(f"{ina219B.raw_current:16b}")
+    print(f"{ina219B.raw_shunt_voltage:16b}")
+    print("")
 
     # Check internal calculations haven't overflowed (doesn't detect ADC overflows)
     if ina219B.overflow:
         print("Internal Math Overflow Detected!")
         print("")
-
-    time.sleep(0.1)
+    """
+    time.sleep(0.2)
