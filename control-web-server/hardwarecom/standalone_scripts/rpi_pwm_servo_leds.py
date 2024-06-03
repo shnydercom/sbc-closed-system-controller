@@ -11,6 +11,8 @@ hat = adafruit_pca9685.PCA9685(i2c)
 kit = ServoKit(i2c=i2c, channels=16)
 
 led_channel_a = 15
+# additional cooler speed adjustment:
+hat.channels[2].duty_cycle = 0x0000
 while True:
     # Increase brightness:
     for i in range(4, 16):
@@ -23,6 +25,6 @@ while True:
         sleep(0.5)
         print("high")
         led_channel.duty_cycle = 0xFFFF
-        kit.servo[0].angle = 180
-        kit.servo[1].angle = 180
+        kit.servo[0].angle = 0
+        kit.servo[1].angle = 0
         sleep(0.5)
