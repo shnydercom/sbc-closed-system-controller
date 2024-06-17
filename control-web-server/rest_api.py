@@ -1,53 +1,75 @@
-from flask import Flask, render_template, send_file, Blueprint
+from fastapi import APIRouter
+from pydantic import BaseModel
+
 import hardwarecom.rpi_servohat_pantilt_adafruit1967 as pantilt
 
-rest_api = Blueprint(
-    "rest_api",
-    __name__,
-    url_prefix="/rest",
-)
+router = APIRouter(prefix="/rest")
+
+
+class PanTilt(BaseModel):
+    pan: float
+    tilt: float
+
+
+currentOrientation = PanTilt(pan=pantilt.pan_to_middle(), tilt=pantilt.tilt_to_middle())
 
 
 # panning
-@rest_api.route("/pan-to-min")
+@router.get("/pan-to-min")
 def pan_to_min():
-    return format_panning(pantilt.pan_to_min())
+    currentOrientation.pan = pantilt.pan_to_min()
+    return currentOrientation
+    # return format_panning(pantilt.pan_to_min())
 
 
-@rest_api.route("/pan-to-middle")
+@router.get("/pan-to-middle")
 def pan_to_middle():
-    return format_panning(pantilt.pan_to_middle())
+    currentOrientation.pan = pantilt.pan_to_middle()
+    return currentOrientation
+    # return format_panning(pantilt.pan_to_middle())
 
 
-@rest_api.route("/pan-to-max")
+@router.get("/pan-to-max")
 def pan_to_max():
-    return format_panning(pantilt.pan_to_max())
+    currentOrientation.pan = pantilt.pan_to_max()
+    return currentOrientation
+    # return format_panning(pantilt.pan_to_max())
 
 
-@rest_api.route("/pan-by/<int(signed=True):relativeangle>")
+@router.get("/pan-by/<int(signed=True):relativeangle>")
 def pan_by(relativeangle):
-    return format_panning(pantilt.pan_by(relativeangle))
+    currentOrientation.pan = pantilt.pan_by(relativeangle)
+    return currentOrientation
+    # return format_panning(pantilt.pan_by(relativeangle))
 
 
 # tilting
-@rest_api.route("/tilt-to-min")
+@router.get("/tilt-to-min")
 def tilt_to_min():
-    return format_tilting(pantilt.tilt_to_min())
+    currentOrientation.tilt = pantilt.tilt_to_min()
+    return currentOrientation
+    # return format_tilting(pantilt.tilt_to_min())
 
 
-@rest_api.route("/tilt-to-middle")
+@router.get("/tilt-to-middle")
 def tilt_to_middle():
-    return format_tilting(pantilt.tilt_to_middle())
+    currentOrientation.tilt = pantilt.tilt_to_middle()
+    return currentOrientation
+    # return format_tilting(pantilt.tilt_to_middle())
 
 
-@rest_api.route("/tilt-to-max")
+@router.get("/tilt-to-max")
 def tilt_to_max():
-    return format_tilting(pantilt.tilt_to_max())
+    currentOrientation.tilt = pantilt.tilt_to_max()
+    return currentOrientation
+    # return format_tilting(pantilt.tilt_to_max())
 
 
-@rest_api.route("/tilt-by/<int(signed=True):relativeangle>")
+@router.get("/tilt-by/<int(signed=True):relativeangle>")
 def tilt_by(relativeangle):
-    return format_tilting(pantilt.tilt_by(relativeangle))
+    currentOrientation.tilt = pantilt.tilt_by(relativeangle)
+    return currentOrientation
+    # return format_tilting(pantilt.tilt_by(relativeangle))
 
 
 # non-REST functions

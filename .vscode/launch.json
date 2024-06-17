@@ -2,6 +2,18 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
+			"name": "FastAPI Python Debugger",
+			"type": "debugpy",
+			"request": "launch",
+			"module": "uvicorn",
+			"cwd": "${workspaceFolder}/control-web-server",
+			"args": [
+				"main:app",
+				"--reload"
+			],
+			"jinja": true
+		},
+		{
 			"name": "PyDebug: Control-Web-Server (Flask)",
 			"type": "debugpy",
 			"request": "launch",
