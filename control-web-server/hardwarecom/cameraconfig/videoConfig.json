@@ -1,0 +1,25 @@
+{
+    "_id": "VIDO",
+    "_use_case": "Video",
+    "_transform_hflip": false,
+    "_transform_vflip": false,
+    "_colour_space": "sYCC",
+    "_buffer_count": 6,
+    "_queue": false,
+    "_display": null,
+    "_encode": "main",
+    "_sensor_mode": "0",
+    "_stream": "main",
+    "_stream_size": [
+        1536,
+        864
+    ],
+    "_stream_size_align": false,
+    "_format": "YUV420",
+    "_controls": {
+        "FrameDurationLimits": [
+            33333,
+            33333
+        ]
+    }
+}

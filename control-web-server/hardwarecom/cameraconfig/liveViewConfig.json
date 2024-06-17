@@ -1,0 +1,25 @@
+{
+    "_id": "LIVE",
+    "_use_case": "Live view",
+    "_transform_hflip": false,
+    "_transform_vflip": false,
+    "_colour_space": "sYCC",
+    "_buffer_count": 6,
+    "_queue": false,
+    "_display": null,
+    "_encode": "main",
+    "_sensor_mode": "custom",
+    "_stream": "lores",
+    "_stream_size": [
+        640,
+        360
+    ],
+    "_stream_size_align": false,
+    "_format": "RGB888",
+    "_controls": {
+        "FrameDurationLimits": [
+            33333,
+            33333
+        ]
+    }
+}
