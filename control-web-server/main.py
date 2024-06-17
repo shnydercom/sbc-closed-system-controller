@@ -10,7 +10,7 @@ app.include_router(router)
 # User Interface resources (Progressive Web App)
 # following guide from: https://medium.com/@tristan_4694/how-to-create-a-progressive-web-app-pwa-using-flask-f227d5854c49
 
-# app.mount("/", StaticFiles(directory="static", html=True), name="static")
+app.mount("/", StaticFiles(directory="static/dist", html=True), name="static")
 
 
 @app.get("/")
