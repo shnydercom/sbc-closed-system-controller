@@ -7,9 +7,9 @@ function App() {
 
 	const pantiltProps: PanTiltButtonsProps = {
 		isRelative: false,
-		panRange: [-60, 60],
+		panRange: [0, 120],
 		panStepsCount: 5,
-		tiltRange: [-60, 60],
+		tiltRange: [0, 120],
 		tiltStepsCount: 5,
 		onDirectionButtonClicked: ({pan, tilt}) => {
 			setPanTiltText(`pan is ${pan}, tilt is ${tilt}`)
@@ -23,7 +23,7 @@ function App() {
 		<>
 			<h1>Single Board Computer - Closed System Controller</h1>
 			<div className="card">
-				<Button onClick={() => setPanTiltText((count) => count + 1)}>
+				<Button onClick={() => setPanTiltText((count) => count + "blahaha")}>
 					text: {panTiltText}
 				</Button>
 				<PanTiltButtons {...pantiltProps}/>
