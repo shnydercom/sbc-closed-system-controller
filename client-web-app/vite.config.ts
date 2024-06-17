@@ -37,4 +37,13 @@ const PWAoptions: Partial<VitePWAOptions> = {
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [VitePWA(PWAoptions), react()],
+	server: {
+		proxy: {
+			"/rest": {
+				target: 'http://127.0.0.1:5000',
+				changeOrigin: true,
+				rewrite: (path) => path.replace(/^\/rest/, ''),
+			},
+		}
+	}
 })
