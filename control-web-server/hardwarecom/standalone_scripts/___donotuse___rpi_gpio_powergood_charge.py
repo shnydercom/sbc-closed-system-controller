@@ -13,7 +13,7 @@ CHG_PIN = 21
 chip = gpiod.Chip("/dev/gpiochip4")
 
 ####
-###    NOT WORKING WELL!!!
+###    NOT WORKING WELL ON PI5!!!
 ####
 with gpiod.request_lines(
     "/dev/gpiochip4",
