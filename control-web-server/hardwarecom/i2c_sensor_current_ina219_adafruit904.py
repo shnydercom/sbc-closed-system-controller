@@ -35,8 +35,8 @@ def read_current_sensor() -> Ina219SensorReading:
         vin_plus_voltage=bus_voltageA + shunt_voltageA,
         bus_voltage=bus_voltageA,  # voltage on V- (load side)
         shunt_voltage=shunt_voltageA,  # voltage between V+ and V- across the shunt
-        current=currentA / 1000,  # current in mA
-        powerCalc=bus_voltageA * (currentA / 1000),
+        current=currentA,  # current in mA
+        powerCalc=bus_voltageA * (currentA / 1000),  # power in Watts
         powerRegister=powerA,
     )
     return result

@@ -17,8 +17,8 @@ export const SensorSummary = () => {
 			const currentSensorFormatted = formatValuesToString(currentSensorRes.data);
 			const accelGyroSensorFormatted = formatValuesToString(accelRes.data);
 			setSensorReadings([
-				{ sensorHeading: "current", readings: currentSensorFormatted },
-				{ sensorHeading: "accelerometer", readings: accelGyroSensorFormatted }
+				{ sensorHeading: "power-sensor (in V, mA, W)", readings: currentSensorFormatted },
+				{ sensorHeading: "accelerometer (in m/s^2, radians/s)", readings: accelGyroSensorFormatted }
 			])
 		})
 	}, [])
@@ -35,10 +35,10 @@ export const SensorSummary = () => {
 
 const valFormatter = (val: any): string => {
 	if (typeof val === 'number') {
-		return val.toFixed(2);
+		return val.toFixed(3);
 	}
 	if (Array.isArray(val)) {
-		return val.map((valEntry) => valFormatter(valEntry)).toString();
+		return val.map((valEntry) => valFormatter(valEntry)).join("; ")
 	}
 	return "" + val
 }

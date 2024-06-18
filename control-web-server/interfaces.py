@@ -9,12 +9,12 @@ class AccelerometerGyroSensorReading(BaseModel):
 
 
 class Ina219SensorReading(BaseModel):
-    vin_plus_voltage: float
-    bus_voltage: float
-    shunt_voltage: float
-    current: float
-    powerCalc: float
-    powerRegister: float
+    vin_plus_voltage: float  # Volt
+    bus_voltage: float  # Volt
+    shunt_voltage: float  # Volt
+    current: float  # milliAmps
+    powerCalc: float  # Watt
+    powerRegister: float  # Watt
 
 
 class SensorSummary(BaseModel):
