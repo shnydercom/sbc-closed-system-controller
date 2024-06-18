@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Box, Typography } from '@mui/material'
-import { PanTiltButtons, PanTiltButtonsProps } from "./../components";
+import { PanTiltButtons, PanTiltButtonsProps } from "../molecules";
 import { DefaultApi } from "./../api/axios-client";
 import { PanTiltCombo } from './../interfaces';
 
