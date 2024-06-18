@@ -7,7 +7,7 @@
     "skipLibCheck": true,
 
     /* Bundler mode */
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",/*modified from "bundler" for rtk-query api generation*/
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,

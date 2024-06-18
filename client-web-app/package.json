@@ -9,7 +9,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "generate": "openapi-generator-cli generate",
-		"rtk-gen": "ts-node @rtk-query/codegen-openapi openapi-config.cts --experimental-module"
+		"rtk-gen": "npx @rtk-query/codegen-openapi openapi-config.cts"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
