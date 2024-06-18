@@ -4,11 +4,15 @@ import { PanTiltButtons, PanTiltButtonsProps } from "../molecules";
 import { DefaultApi } from "./../api/axios-client";
 import { PanTiltCombo } from './../interfaces';
 
+import { useAppDispatch, useTypedSelector } from '../store/reduxStore'
+
 const api = new DefaultApi(undefined, ".")
 
 export function PanTiltServoControls() {
 	const [lastPanTilt, setLastPanTilt] = useState<PanTiltCombo>({ pan: Infinity, tilt: Infinity })
 
+	const dispatch = useAppDispatch()
+	
 	useEffect(() => {
 		api.pantiltOrientation().then((res) => {
 			setLastPanTilt({ ...lastPanTilt, ...res.data })
