@@ -39,6 +39,25 @@ export interface HTTPValidationError {
 /**
  * 
  * @export
+ * @interface PanTilt
+ */
+export interface PanTilt {
+    /**
+     * 
+     * @type {number}
+     * @memberof PanTilt
+     */
+    'pan'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PanTilt
+     */
+    'tilt'?: number;
+}
+/**
+ * 
+ * @export
  * @interface ValidationError
  */
 export interface ValidationError {
@@ -82,9 +101,9 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        panByRestPanByRelativeangleGet: async (relativeangle: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        panBy: async (relativeangle: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'relativeangle' is not null or undefined
-            assertParamExists('panByRestPanByRelativeangleGet', 'relativeangle', relativeangle)
+            assertParamExists('panBy', 'relativeangle', relativeangle)
             const localVarPath = `/rest/pan-by/{relativeangle}`
                 .replace(`{${"relativeangle"}}`, encodeURIComponent(String(relativeangle)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -115,7 +134,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        panToMaxRestPanToMaxGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        panToMax: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/rest/pan-to-max`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -145,7 +164,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        panToMiddleRestPanToMiddleGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        panToMiddle: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/rest/pan-to-middle`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -175,7 +194,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        panToMinRestPanToMinGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        panToMin: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/rest/pan-to-min`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -205,7 +224,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        pantiltOrientationRestPantiltOrientationGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        pantiltOrientation: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/rest/pantilt-orientation`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -235,7 +254,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        readIndexGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        readIndex: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -266,9 +285,9 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        tiltByRestTiltByRelativeangleGet: async (relativeangle: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        tiltBy: async (relativeangle: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'relativeangle' is not null or undefined
-            assertParamExists('tiltByRestTiltByRelativeangleGet', 'relativeangle', relativeangle)
+            assertParamExists('tiltBy', 'relativeangle', relativeangle)
             const localVarPath = `/rest/tilt-by/{relativeangle}`
                 .replace(`{${"relativeangle"}}`, encodeURIComponent(String(relativeangle)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -299,7 +318,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        tiltToMaxRestTiltToMaxGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        tiltToMax: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/rest/tilt-to-max`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -329,7 +348,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        tiltToMiddleRestTiltToMiddleGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        tiltToMiddle: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/rest/tilt-to-middle`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -359,7 +378,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        tiltToMinRestTiltToMinGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        tiltToMin: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/rest/tilt-to-min`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -400,10 +419,10 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async panByRestPanByRelativeangleGet(relativeangle: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.panByRestPanByRelativeangleGet(relativeangle, options);
+        async panBy(relativeangle: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PanTilt>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.panBy(relativeangle, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.panByRestPanByRelativeangleGet']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.panBy']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -412,10 +431,10 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async panToMaxRestPanToMaxGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.panToMaxRestPanToMaxGet(options);
+        async panToMax(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PanTilt>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.panToMax(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.panToMaxRestPanToMaxGet']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.panToMax']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -424,10 +443,10 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async panToMiddleRestPanToMiddleGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.panToMiddleRestPanToMiddleGet(options);
+        async panToMiddle(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PanTilt>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.panToMiddle(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.panToMiddleRestPanToMiddleGet']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.panToMiddle']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -436,10 +455,10 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async panToMinRestPanToMinGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.panToMinRestPanToMinGet(options);
+        async panToMin(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PanTilt>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.panToMin(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.panToMinRestPanToMinGet']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.panToMin']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -448,10 +467,10 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async pantiltOrientationRestPantiltOrientationGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.pantiltOrientationRestPantiltOrientationGet(options);
+        async pantiltOrientation(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PanTilt>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.pantiltOrientation(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.pantiltOrientationRestPantiltOrientationGet']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.pantiltOrientation']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -460,10 +479,10 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async readIndexGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.readIndexGet(options);
+        async readIndex(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.readIndex(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.readIndexGet']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.readIndex']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -473,10 +492,10 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async tiltByRestTiltByRelativeangleGet(relativeangle: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.tiltByRestTiltByRelativeangleGet(relativeangle, options);
+        async tiltBy(relativeangle: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PanTilt>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.tiltBy(relativeangle, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.tiltByRestTiltByRelativeangleGet']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.tiltBy']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -485,10 +504,10 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async tiltToMaxRestTiltToMaxGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.tiltToMaxRestTiltToMaxGet(options);
+        async tiltToMax(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PanTilt>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.tiltToMax(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.tiltToMaxRestTiltToMaxGet']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.tiltToMax']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -497,10 +516,10 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async tiltToMiddleRestTiltToMiddleGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.tiltToMiddleRestTiltToMiddleGet(options);
+        async tiltToMiddle(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PanTilt>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.tiltToMiddle(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.tiltToMiddleRestTiltToMiddleGet']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.tiltToMiddle']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -509,10 +528,10 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async tiltToMinRestTiltToMinGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.tiltToMinRestTiltToMinGet(options);
+        async tiltToMin(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PanTilt>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.tiltToMin(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.tiltToMinRestTiltToMinGet']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.tiltToMin']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -528,12 +547,12 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         /**
          * 
          * @summary Pan By
-         * @param {DefaultApiPanByRestPanByRelativeangleGetRequest} requestParameters Request parameters.
+         * @param {DefaultApiPanByRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        panByRestPanByRelativeangleGet(requestParameters: DefaultApiPanByRestPanByRelativeangleGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<any> {
-            return localVarFp.panByRestPanByRelativeangleGet(requestParameters.relativeangle, options).then((request) => request(axios, basePath));
+        panBy(requestParameters: DefaultApiPanByRequest, options?: RawAxiosRequestConfig): AxiosPromise<PanTilt> {
+            return localVarFp.panBy(requestParameters.relativeangle, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -541,8 +560,8 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        panToMaxRestPanToMaxGet(options?: RawAxiosRequestConfig): AxiosPromise<any> {
-            return localVarFp.panToMaxRestPanToMaxGet(options).then((request) => request(axios, basePath));
+        panToMax(options?: RawAxiosRequestConfig): AxiosPromise<PanTilt> {
+            return localVarFp.panToMax(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -550,8 +569,8 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        panToMiddleRestPanToMiddleGet(options?: RawAxiosRequestConfig): AxiosPromise<any> {
-            return localVarFp.panToMiddleRestPanToMiddleGet(options).then((request) => request(axios, basePath));
+        panToMiddle(options?: RawAxiosRequestConfig): AxiosPromise<PanTilt> {
+            return localVarFp.panToMiddle(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -559,8 +578,8 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        panToMinRestPanToMinGet(options?: RawAxiosRequestConfig): AxiosPromise<any> {
-            return localVarFp.panToMinRestPanToMinGet(options).then((request) => request(axios, basePath));
+        panToMin(options?: RawAxiosRequestConfig): AxiosPromise<PanTilt> {
+            return localVarFp.panToMin(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -568,8 +587,8 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        pantiltOrientationRestPantiltOrientationGet(options?: RawAxiosRequestConfig): AxiosPromise<any> {
-            return localVarFp.pantiltOrientationRestPantiltOrientationGet(options).then((request) => request(axios, basePath));
+        pantiltOrientation(options?: RawAxiosRequestConfig): AxiosPromise<PanTilt> {
+            return localVarFp.pantiltOrientation(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -577,18 +596,18 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        readIndexGet(options?: RawAxiosRequestConfig): AxiosPromise<any> {
-            return localVarFp.readIndexGet(options).then((request) => request(axios, basePath));
+        readIndex(options?: RawAxiosRequestConfig): AxiosPromise<any> {
+            return localVarFp.readIndex(options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary Tilt By
-         * @param {DefaultApiTiltByRestTiltByRelativeangleGetRequest} requestParameters Request parameters.
+         * @param {DefaultApiTiltByRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        tiltByRestTiltByRelativeangleGet(requestParameters: DefaultApiTiltByRestTiltByRelativeangleGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<any> {
-            return localVarFp.tiltByRestTiltByRelativeangleGet(requestParameters.relativeangle, options).then((request) => request(axios, basePath));
+        tiltBy(requestParameters: DefaultApiTiltByRequest, options?: RawAxiosRequestConfig): AxiosPromise<PanTilt> {
+            return localVarFp.tiltBy(requestParameters.relativeangle, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -596,8 +615,8 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        tiltToMaxRestTiltToMaxGet(options?: RawAxiosRequestConfig): AxiosPromise<any> {
-            return localVarFp.tiltToMaxRestTiltToMaxGet(options).then((request) => request(axios, basePath));
+        tiltToMax(options?: RawAxiosRequestConfig): AxiosPromise<PanTilt> {
+            return localVarFp.tiltToMax(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -605,8 +624,8 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        tiltToMiddleRestTiltToMiddleGet(options?: RawAxiosRequestConfig): AxiosPromise<any> {
-            return localVarFp.tiltToMiddleRestTiltToMiddleGet(options).then((request) => request(axios, basePath));
+        tiltToMiddle(options?: RawAxiosRequestConfig): AxiosPromise<PanTilt> {
+            return localVarFp.tiltToMiddle(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -614,36 +633,36 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        tiltToMinRestTiltToMinGet(options?: RawAxiosRequestConfig): AxiosPromise<any> {
-            return localVarFp.tiltToMinRestTiltToMinGet(options).then((request) => request(axios, basePath));
+        tiltToMin(options?: RawAxiosRequestConfig): AxiosPromise<PanTilt> {
+            return localVarFp.tiltToMin(options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * Request parameters for panByRestPanByRelativeangleGet operation in DefaultApi.
+ * Request parameters for panBy operation in DefaultApi.
  * @export
- * @interface DefaultApiPanByRestPanByRelativeangleGetRequest
+ * @interface DefaultApiPanByRequest
  */
-export interface DefaultApiPanByRestPanByRelativeangleGetRequest {
+export interface DefaultApiPanByRequest {
     /**
      * 
      * @type {number}
-     * @memberof DefaultApiPanByRestPanByRelativeangleGet
+     * @memberof DefaultApiPanBy
      */
     readonly relativeangle: number
 }
 
 /**
- * Request parameters for tiltByRestTiltByRelativeangleGet operation in DefaultApi.
+ * Request parameters for tiltBy operation in DefaultApi.
  * @export
- * @interface DefaultApiTiltByRestTiltByRelativeangleGetRequest
+ * @interface DefaultApiTiltByRequest
  */
-export interface DefaultApiTiltByRestTiltByRelativeangleGetRequest {
+export interface DefaultApiTiltByRequest {
     /**
      * 
      * @type {number}
-     * @memberof DefaultApiTiltByRestTiltByRelativeangleGet
+     * @memberof DefaultApiTiltBy
      */
     readonly relativeangle: number
 }
@@ -658,13 +677,13 @@ export class DefaultApi extends BaseAPI {
     /**
      * 
      * @summary Pan By
-     * @param {DefaultApiPanByRestPanByRelativeangleGetRequest} requestParameters Request parameters.
+     * @param {DefaultApiPanByRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public panByRestPanByRelativeangleGet(requestParameters: DefaultApiPanByRestPanByRelativeangleGetRequest, options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).panByRestPanByRelativeangleGet(requestParameters.relativeangle, options).then((request) => request(this.axios, this.basePath));
+    public panBy(requestParameters: DefaultApiPanByRequest, options?: RawAxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).panBy(requestParameters.relativeangle, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -674,8 +693,8 @@ export class DefaultApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public panToMaxRestPanToMaxGet(options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).panToMaxRestPanToMaxGet(options).then((request) => request(this.axios, this.basePath));
+    public panToMax(options?: RawAxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).panToMax(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -685,8 +704,8 @@ export class DefaultApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public panToMiddleRestPanToMiddleGet(options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).panToMiddleRestPanToMiddleGet(options).then((request) => request(this.axios, this.basePath));
+    public panToMiddle(options?: RawAxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).panToMiddle(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -696,8 +715,8 @@ export class DefaultApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public panToMinRestPanToMinGet(options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).panToMinRestPanToMinGet(options).then((request) => request(this.axios, this.basePath));
+    public panToMin(options?: RawAxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).panToMin(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -707,8 +726,8 @@ export class DefaultApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public pantiltOrientationRestPantiltOrientationGet(options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).pantiltOrientationRestPantiltOrientationGet(options).then((request) => request(this.axios, this.basePath));
+    public pantiltOrientation(options?: RawAxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).pantiltOrientation(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -718,20 +737,20 @@ export class DefaultApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public readIndexGet(options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).readIndexGet(options).then((request) => request(this.axios, this.basePath));
+    public readIndex(options?: RawAxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).readIndex(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @summary Tilt By
-     * @param {DefaultApiTiltByRestTiltByRelativeangleGetRequest} requestParameters Request parameters.
+     * @param {DefaultApiTiltByRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public tiltByRestTiltByRelativeangleGet(requestParameters: DefaultApiTiltByRestTiltByRelativeangleGetRequest, options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).tiltByRestTiltByRelativeangleGet(requestParameters.relativeangle, options).then((request) => request(this.axios, this.basePath));
+    public tiltBy(requestParameters: DefaultApiTiltByRequest, options?: RawAxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).tiltBy(requestParameters.relativeangle, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -741,8 +760,8 @@ export class DefaultApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public tiltToMaxRestTiltToMaxGet(options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).tiltToMaxRestTiltToMaxGet(options).then((request) => request(this.axios, this.basePath));
+    public tiltToMax(options?: RawAxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).tiltToMax(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -752,8 +771,8 @@ export class DefaultApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public tiltToMiddleRestTiltToMiddleGet(options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).tiltToMiddleRestTiltToMiddleGet(options).then((request) => request(this.axios, this.basePath));
+    public tiltToMiddle(options?: RawAxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).tiltToMiddle(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -763,8 +782,8 @@ export class DefaultApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public tiltToMinRestTiltToMinGet(options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).tiltToMinRestTiltToMinGet(options).then((request) => request(this.axios, this.basePath));
+    public tiltToMin(options?: RawAxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).tiltToMin(options).then((request) => request(this.axios, this.basePath));
     }
 }
 

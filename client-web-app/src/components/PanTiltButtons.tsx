@@ -6,7 +6,6 @@ export interface PanTiltButtonsProps {
 	tiltRange: [number, number];
 	panStepsCount: number;
 	tiltStepsCount: number;
-	isRelative: boolean;
 	onDirectionButtonClicked: (newPanTilt: { pan: number, tilt: number }) => void;
 	unit?: string;
 	gridContainerStyles?: SxProps<Theme>
@@ -23,11 +22,12 @@ export const PanTiltButtons: React.FC<PanTiltButtonsProps> = ({ panRange, tiltRa
 		const tiltMin = Math.min(...tiltRange);
 		const tiltMax = Math.max(...tiltRange);
 		const tiltDeltaSteps = (tiltMax - tiltMin) / (tiltStepsCount - 1);
-		for (let tiltIterator = tiltStepsCount - 1; tiltIterator >= 0; tiltIterator--) {
-			for (let panIterator = 0; panIterator < panStepsCount; panIterator++) {
+		//for (let tiltIterator = tiltStepsCount - 1; tiltIterator >= 0; tiltIterator--) {
+		for (let tiltIterator = 0; tiltIterator < tiltStepsCount; tiltIterator++) {
+			for (let panIterator = panStepsCount - 1; panIterator >= 0; panIterator--) {
 				const newPan = panIterator * panDeltaSteps + panMin;
 				const newTilt = tiltIterator * tiltDeltaSteps + tiltMin;
-				const btnText: string = `→ ${newPan}${unitStr} ↑${newTilt}${unitStr}`;
+				const btnText: string = `← ${newPan}${unitStr} ↓${newTilt}${unitStr}`;
 				const newButton = <Button
 					onClick={() => {
 						onDirectionButtonClicked({ pan: newPan, tilt: newTilt })

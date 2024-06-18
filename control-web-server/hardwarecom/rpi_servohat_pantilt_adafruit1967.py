@@ -7,8 +7,8 @@ kit = ServoKit(channels=16)
 # cam turning (pan): channel 0
 # cam nodding (tilt): channel 1
 
-turner_id = 1
-nodder_id = 0
+turner_id = 0
+nodder_id = 1
 
 turner_max_range = 120
 nodder_max_range = 120

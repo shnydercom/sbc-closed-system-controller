@@ -1,18 +1,32 @@
-import { useState } from 'react'
-import { Button } from '@mui/material'
+import { useEffect, useState } from 'react'
+import { Box, Typography } from '@mui/material'
 import { PanTiltButtons, PanTiltButtonsProps } from "./components";
+import { DefaultApi } from "./api/axios-client";
+import { PanTiltCombo } from './interfaces';
+
+const api = new DefaultApi(undefined, ".")
 
 function App() {
-	const [panTiltText, setPanTiltText] = useState("pantilt text")
+	const [lastPanTilt, setLastPanTilt] = useState<PanTiltCombo>({ pan: Infinity, tilt: Infinity })
+
+	useEffect(() => {
+		api.pantiltOrientation().then((res) => {
+			setLastPanTilt({...lastPanTilt, ...res.data})
+		})
+	}, [])
 
 	const pantiltProps: PanTiltButtonsProps = {
-		isRelative: false,
-		panRange: [0, 120],
+		panRange: [-20, 20],
 		panStepsCount: 5,
-		tiltRange: [0, 120],
+		tiltRange: [-20, 20],
 		tiltStepsCount: 5,
-		onDirectionButtonClicked: ({pan, tilt}) => {
-			setPanTiltText(`pan is ${pan}, tilt is ${tilt}`)
+		onDirectionButtonClicked: ({ pan, tilt }) => {
+			Promise.all([
+				api.panBy({ relativeangle: pan }),
+				api.tiltBy({ relativeangle: tilt })]
+			).then(([resPan, resTilt]) => {
+				setLastPanTilt(({ pan: resPan.data.pan ?? Infinity, tilt: resTilt.data.tilt ?? Infinity }))
+			})
 		},
 		gridContainerStyles: {
 			width: "500px",
@@ -23,10 +37,11 @@ function App() {
 		<>
 			<h1>Single Board Computer - Closed System Controller</h1>
 			<div className="card">
-				<Button onClick={() => setPanTiltText((count) => count + "blahaha")}>
-					text: {panTiltText}
-				</Button>
-				<PanTiltButtons {...pantiltProps}/>
+				<Box>
+					<Typography>Pan: {lastPanTilt.pan}</Typography>
+					<Typography>Tilt: {lastPanTilt.tilt}</Typography>
+				</Box>
+				<PanTiltButtons {...pantiltProps} />
 			</div>
 		</>
 	)
