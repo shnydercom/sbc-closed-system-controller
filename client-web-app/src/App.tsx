@@ -1,4 +1,5 @@
-import { PanTiltServoControls } from './organisms/PanTiltServoControls';
+import { PanTiltServoControls } from './organisms';
+import { SensorSummary } from './organisms';
 
 
 function App() {
@@ -8,6 +9,7 @@ function App() {
 			<h1>Single Board Computer - Closed System Controller</h1>
 			<div className="card">
 				<PanTiltServoControls/>
+				<SensorSummary/>
 			</div>
 		</>
 	)

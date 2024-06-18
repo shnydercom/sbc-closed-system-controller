@@ -11,7 +11,7 @@ export function PanTiltServoControls() {
 
 	useEffect(() => {
 		api.pantiltOrientation().then((res) => {
-			setLastPanTilt({...lastPanTilt, ...res.data})
+			setLastPanTilt({ ...lastPanTilt, ...res.data })
 		})
 	}, [])
 	const pantiltProps: PanTiltButtonsProps = {
@@ -20,6 +20,15 @@ export function PanTiltServoControls() {
 		tiltRange: [-20, 20],
 		tiltStepsCount: 5,
 		onDirectionButtonClicked: ({ pan, tilt }) => {
+			if (pan === 0 && tilt === 0) {
+				Promise.all([
+					api.panToMiddle(),
+					api.tiltToMiddle()]
+				).then(([resPan, resTilt]) => {
+					setLastPanTilt(({ pan: resPan.data.pan ?? Infinity, tilt: resTilt.data.tilt ?? Infinity }))
+				})
+				return;
+			}
 			Promise.all([
 				api.panBy({ relativeangle: pan }),
 				api.tiltBy({ relativeangle: tilt })]
@@ -34,11 +43,11 @@ export function PanTiltServoControls() {
 	}
 	return (
 		<>
-			<Box>
-					<Typography>Pan: {lastPanTilt.pan}</Typography>
-					<Typography>Tilt: {lastPanTilt.tilt}</Typography>
-				</Box>
-				<PanTiltButtons {...pantiltProps} />
+			<Box mb={2}>
+				<Typography>Pan: {lastPanTilt.pan}</Typography>
+				<Typography>Tilt: {lastPanTilt.tilt}</Typography>
+			</Box>
+			<PanTiltButtons {...pantiltProps} />
 		</>
 	);
 }

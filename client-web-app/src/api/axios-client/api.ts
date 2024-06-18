@@ -26,6 +26,25 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerM
 /**
  * 
  * @export
+ * @interface AccelerometerGyroSensorReading
+ */
+export interface AccelerometerGyroSensorReading {
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof AccelerometerGyroSensorReading
+     */
+    'acceleration': Array<string>;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof AccelerometerGyroSensorReading
+     */
+    'gyro': Array<string>;
+}
+/**
+ * 
+ * @export
  * @interface HTTPValidationError
  */
 export interface HTTPValidationError {
@@ -35,6 +54,49 @@ export interface HTTPValidationError {
      * @memberof HTTPValidationError
      */
     'detail'?: Array<ValidationError>;
+}
+/**
+ * 
+ * @export
+ * @interface Ina219SensorReading
+ */
+export interface Ina219SensorReading {
+    /**
+     * 
+     * @type {number}
+     * @memberof Ina219SensorReading
+     */
+    'vin_plus_voltage': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Ina219SensorReading
+     */
+    'bus_voltage': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Ina219SensorReading
+     */
+    'shunt_voltage': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Ina219SensorReading
+     */
+    'current': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Ina219SensorReading
+     */
+    'powerCalc': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof Ina219SensorReading
+     */
+    'powerRegister': number;
 }
 /**
  * 
@@ -94,6 +156,66 @@ export interface ValidationErrorLocInner {
  */
 export const DefaultApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         * 
+         * @summary Accelerometer Gyro Sensor
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        accelerometerGyroSensor: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/rest/accelerometer-gyro-sensor`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Current Sensor
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        currentSensor: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/rest/current-sensor`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         /**
          * 
          * @summary Pan By
@@ -414,6 +536,30 @@ export const DefaultApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @summary Accelerometer Gyro Sensor
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async accelerometerGyroSensor(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AccelerometerGyroSensorReading>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.accelerometerGyroSensor(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.accelerometerGyroSensor']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Current Sensor
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async currentSensor(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Ina219SensorReading>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.currentSensor(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.currentSensor']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Pan By
          * @param {number} relativeangle 
          * @param {*} [options] Override http request option.
@@ -546,6 +692,24 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     return {
         /**
          * 
+         * @summary Accelerometer Gyro Sensor
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        accelerometerGyroSensor(options?: RawAxiosRequestConfig): AxiosPromise<AccelerometerGyroSensorReading> {
+            return localVarFp.accelerometerGyroSensor(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Current Sensor
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        currentSensor(options?: RawAxiosRequestConfig): AxiosPromise<Ina219SensorReading> {
+            return localVarFp.currentSensor(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Pan By
          * @param {DefaultApiPanByRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
@@ -674,6 +838,28 @@ export interface DefaultApiTiltByRequest {
  * @extends {BaseAPI}
  */
 export class DefaultApi extends BaseAPI {
+    /**
+     * 
+     * @summary Accelerometer Gyro Sensor
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public accelerometerGyroSensor(options?: RawAxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).accelerometerGyroSensor(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Current Sensor
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public currentSensor(options?: RawAxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).currentSensor(options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @summary Pan By
