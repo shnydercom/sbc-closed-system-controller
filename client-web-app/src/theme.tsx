@@ -1,4 +1,4 @@
-import { Box, CssBaseline, ThemeProvider, createTheme } from '@mui/material';
+import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import "@fontsource/metropolis";
 import React from 'react';
 

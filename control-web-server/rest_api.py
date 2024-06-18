@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Path
 from pydantic import BaseModel
 
 import hardwarecom.rpi_servohat_pantilt_adafruit1967 as pantilt
@@ -12,6 +12,11 @@ class PanTilt(BaseModel):
 
 
 currentOrientation = PanTilt(pan=pantilt.pan_to_middle(), tilt=pantilt.tilt_to_middle())
+
+
+@router.get("/pantilt-orientation")
+def pantilt_orientation():
+    return currentOrientation
 
 
 # panning
@@ -36,8 +41,11 @@ def pan_to_max():
     # return format_panning(pantilt.pan_to_max())
 
 
-@router.get("/pan-by/<int(signed=True):relativeangle>")
-def pan_by(relativeangle):
+# @router.get("/pan-by/<int(signed=True):relativeangle>")
+@router.get("/pan-by/{relativeangle}")
+def pan_by(
+    relativeangle: int = Path(title="The angle in degrees for relative movement"),
+):
     currentOrientation.pan = pantilt.pan_by(relativeangle)
     return currentOrientation
     # return format_panning(pantilt.pan_by(relativeangle))
@@ -65,8 +73,11 @@ def tilt_to_max():
     # return format_tilting(pantilt.tilt_to_max())
 
 
-@router.get("/tilt-by/<int(signed=True):relativeangle>")
-def tilt_by(relativeangle):
+# @router.get("/tilt-by/<int(signed=True):relativeangle>")
+@router.get("/tilt-by/{relativeangle}")
+def tilt_by(
+    relativeangle: int = Path(title="The angle in degrees for relative movement"),
+):
     currentOrientation.tilt = pantilt.tilt_by(relativeangle)
     return currentOrientation
     # return format_tilting(pantilt.tilt_by(relativeangle))
