@@ -10,9 +10,9 @@ export const MomentSensorReadings = ({ sensorHeading, readings }: MomentSensorRe
 		<Box display={"flex"} flexDirection={"column"} mt={2}>
 			<Typography variant="caption">{sensorHeading}</Typography>
 			<Box display={"grid"} gridAutoFlow="column" gap="4px" gridTemplateRows={`repeat(${descriptions.length}, 24px)`} gridTemplateColumns={"160px"}>
-				{descriptions.map(entry => {
+				{descriptions.map((entry, idx) => {
 					return (
-						<Typography>{entry}</Typography>
+						<Typography key={`desc-${idx}`}>{entry}</Typography>
 					)
 				}
 				)}
@@ -25,6 +25,6 @@ export const MomentSensorReadings = ({ sensorHeading, readings }: MomentSensorRe
 const VolatileSensorReadingText = ({ readings }: { readings: string[] }) => {
 	//might update UI here, where all quick changes happen
 	return (<>
-		{readings.map((reading) => <Typography>{reading}</Typography>)}
+		{readings.map((reading, idx) => <Typography key={`reading-${idx}`}>{reading}</Typography>)}
 	</>)
 }

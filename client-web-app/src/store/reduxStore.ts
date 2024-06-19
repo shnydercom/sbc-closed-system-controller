@@ -1,22 +1,28 @@
-import { configureStore, ConfigureStoreOptions } from '@reduxjs/toolkit'
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import { Action, combineSlices, configureStore, ConfigureStoreOptions, ThunkAction } from '@reduxjs/toolkit'
 import { rtkQueryClientApi } from './rtkQueryClientApi'
 
+// `combineSlices` automatically combines the reducers using
+// their `reducerPath`s, therefore we no longer need to call `combineReducers`.
+const rootReducer = combineSlices(rtkQueryClientApi)
+// Infer the `RootState` type from the root reducer
+export type RootState = ReturnType<typeof rootReducer>
+
 export const createStore = (
-  options?: ConfigureStoreOptions['preloadedState'] | undefined,
+	options?: ConfigureStoreOptions['preloadedState'] | undefined,
 ) =>
-  configureStore({
-    reducer: {
-      [rtkQueryClientApi.reducerPath]: rtkQueryClientApi.reducer,
-    },
-    middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(rtkQueryClientApi.middleware),
-    ...options,
-  })
+	configureStore({
+		reducer: rootReducer,
+		middleware: (getDefaultMiddleware) =>
+			getDefaultMiddleware().concat(rtkQueryClientApi.middleware),
+		...options,
+	})
 
 export const store = createStore()
 
 export type AppDispatch = typeof store.dispatch
-export const useAppDispatch: () => AppDispatch = useDispatch
-export type RootState = ReturnType<typeof store.getState>
-export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector
+export type AppThunk<ThunkReturnType = void> = ThunkAction<
+	ThunkReturnType,
+	RootState,
+	unknown,
+	Action
+>

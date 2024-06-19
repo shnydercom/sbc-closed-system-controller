@@ -1,5 +1,5 @@
 import { Box, Button, SxProps, Theme } from '@mui/material';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 
 export interface PanTiltButtonsProps {
 	panRange: [number, number];
@@ -11,7 +11,7 @@ export interface PanTiltButtonsProps {
 	gridContainerStyles?: SxProps<Theme>
 }
 
-export const PanTiltButtons: React.FC<PanTiltButtonsProps> = ({ panRange, tiltRange, panStepsCount, tiltStepsCount, onDirectionButtonClicked, unit, gridContainerStyles }) => {
+export const PanTiltButtons: React.FC<PanTiltButtonsProps> = ({ panRange, tiltRange, panStepsCount, tiltStepsCount, onDirectionButtonClicked, unit, gridContainerStyles }: PanTiltButtonsProps) => {
 
 	const directionButtons = useMemo(() => {
 		const unitStr = unit ?? "°";
@@ -29,6 +29,7 @@ export const PanTiltButtons: React.FC<PanTiltButtonsProps> = ({ panRange, tiltRa
 				const newTilt = tiltIterator * tiltDeltaSteps + tiltMin;
 				const btnText: string = `← ${newPan}${unitStr} ↓${newTilt}${unitStr}`;
 				const newButton = <Button
+					key={`ptBtn-${tiltIterator}-${panIterator}`}
 					onClick={() => {
 						onDirectionButtonClicked({ pan: newPan, tilt: newTilt })
 					}}

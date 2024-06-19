@@ -1,32 +1,30 @@
 import { Box } from "@mui/material";
-import { DefaultApi } from "../api/axios-client";
 import { MomentSensorReadings, MomentSensorReadingsProps } from "../molecules";
-import { useEffect, useState } from "react";
 
-const api = new DefaultApi(undefined, ".")
+import { useCurrentSensorQuery, useAccelerometerGyroSensorQuery } from "../store/rtkQueryClientApi"
 
 export const SensorSummary = () => {
-	const [sensorReadings, setSensorReadings] = useState<MomentSensorReadingsProps[]>([])
-	useEffect(() => {
-		Promise.all(
-			[
-				api.currentSensor(),
-				api.accelerometerGyroSensor()
-			]
-		).then(([currentSensorRes, accelRes]) => {
-			const currentSensorFormatted = formatValuesToString(currentSensorRes.data);
-			const accelGyroSensorFormatted = formatValuesToString(accelRes.data);
-			setSensorReadings([
-				{ sensorHeading: "power-sensor (in V, mA, W)", readings: currentSensorFormatted },
-				{ sensorHeading: "accelerometer (in m/s^2, radians/s)", readings: accelGyroSensorFormatted }
-			])
-		})
-	}, [])
+	const sensorReadings: MomentSensorReadingsProps[] = [];
+	const currentSensorQ = useCurrentSensorQuery();
+	const accelerometerQ = useAccelerometerGyroSensorQuery();
+
+	if (currentSensorQ.isSuccess) {
+		const currentSensorFormatted = formatValuesToString(currentSensorQ.data);
+		sensorReadings.push({ sensorHeading: "power-sensor (in V, mA, W)", readings: currentSensorFormatted })
+	}
+	if (accelerometerQ.isSuccess) {
+		const accelGyroSensorFormatted = formatValuesToString(accelerometerQ.data);
+		sensorReadings.push({ sensorHeading: "accelerometer (in m/s^2, radians/s)", readings: accelGyroSensorFormatted })
+	}
 	return (
 		<Box>
 			{
-				sensorReadings.map((sensorReading) => {
-					return <MomentSensorReadings sensorHeading={sensorReading.sensorHeading} readings={sensorReading.readings} />
+				sensorReadings.map((sensorReading, idx) => {
+					return <MomentSensorReadings
+						key={`sensor-${idx}`}
+						sensorHeading={sensorReading.sensorHeading}
+						readings={sensorReading.readings}
+					/>
 				})
 			}
 		</Box>
