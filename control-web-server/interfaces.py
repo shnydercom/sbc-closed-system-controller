@@ -29,3 +29,9 @@ class SensorSummary(BaseModel):
 class PanTilt(BaseModel):
     pan: float = Field(default=None, title="A pan value (horizontal motion)")
     tilt: float = Field(default=None, title="A tilt value (vertical motion)")
+
+
+class PWMDevice(BaseModel):
+    strength: float = Field(
+        default=0, title="how much of the duty cycle is 1 instead of 0"
+    )
