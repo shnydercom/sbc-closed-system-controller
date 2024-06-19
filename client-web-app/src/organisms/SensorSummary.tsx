@@ -5,8 +5,8 @@ import { useCurrentSensorQuery, useAccelerometerGyroSensorQuery } from "../store
 
 export const SensorSummary = () => {
 	const sensorReadings: MomentSensorReadingsProps[] = [];
-	const currentSensorQ = useCurrentSensorQuery();
-	const accelerometerQ = useAccelerometerGyroSensorQuery();
+	const currentSensorQ = useCurrentSensorQuery(undefined, { pollingInterval: 300 });
+	const accelerometerQ = useAccelerometerGyroSensorQuery(undefined, { pollingInterval: 300 });
 
 	if (currentSensorQ.isSuccess) {
 		const currentSensorFormatted = formatValuesToString(currentSensorQ.data);
