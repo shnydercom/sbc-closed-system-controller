@@ -1,5 +1,5 @@
 import { Paper, Stack } from '@mui/material';
-import { PanTiltServoControls, LEDControls, SensorSummary, ExtraFanControl } from './organisms';
+import { PanTiltServoControls, LEDControls, SensorSummary, ExtraFanControl, VideoDisplays } from './organisms';
 
 
 function App() {
@@ -15,6 +15,7 @@ function App() {
 						<ExtraFanControl />
 					</Stack>
 					<Stack direction="column">
+						<VideoDisplays/>
 						<SensorSummary />
 					</Stack>
 				</Stack>

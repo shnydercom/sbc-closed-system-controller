@@ -17,6 +17,15 @@ from interfaces import (
 router = APIRouter(prefix="/rest")
 
 
+##
+@router.get("/videofeed")
+def video_feed():
+    # Camera().startLiveStream()
+    # return Response(gen(Camera()),
+    #                mimetype='multipart/x-mixed-replace; boundary=frame')
+    return
+
+
 ############################
 # System health sensors
 ############################
