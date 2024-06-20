@@ -53,7 +53,7 @@ export function PanTiltServoControls() {
 			},
 			gridContainerStyles: {
 				width: "500px",
-				height: "400px"
+				height: "300px"
 			}
 		}
 		return (

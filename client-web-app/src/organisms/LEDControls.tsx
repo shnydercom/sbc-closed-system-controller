@@ -1,4 +1,4 @@
-import { Stack, Typography, debounce } from "@mui/material";
+import { Paper, Stack, Typography, debounce } from "@mui/material";
 import { PercentageControlRow } from "../molecules";
 import { PercentageControl } from "../interfaces";
 import { useGetAllLedStrengthsQuery, useLazySwitchLedToQuery } from "../store/rtkQueryClientApi"
@@ -30,10 +30,14 @@ export const LEDControls = () => {
 	}, 200)
 
 	return (
-		<Stack direction={"column"} mt={2}>
-			<Typography variant="caption">Upper LEDs</Typography>
-			<PercentageControlRow controls={upperLeds} onChange={onChange} />
-			<Typography variant="caption" mt={2}>Lower LEDs</Typography>
-			<PercentageControlRow controls={lowerLeds} onChange={onChange} />
-		</Stack>);
+		<Paper sx={{ padding: 2, display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 5 }}>
+			<Stack direction={"column"}>
+				<Typography variant="caption">Upper LEDs</Typography>
+				<PercentageControlRow controls={upperLeds} onChange={onChange} />
+			</Stack>
+			<Stack direction={"column"}>
+				<Typography variant="caption">Lower LEDs</Typography>
+				<PercentageControlRow controls={lowerLeds} onChange={onChange} />
+			</Stack>
+		</Paper>);
 }
