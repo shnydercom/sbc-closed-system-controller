@@ -10,6 +10,54 @@ const injectedRtkApi = api.injectEndpoints({
     currentSensor: build.query<CurrentSensorApiResponse, CurrentSensorApiArg>({
       query: () => ({ url: `/rest/current-sensor` }),
     }),
+    coolerStrength: build.query<
+      CoolerStrengthApiResponse,
+      CoolerStrengthApiArg
+    >({
+      query: () => ({ url: `/rest/cooler-strength` }),
+    }),
+    switchCoolerOff: build.query<
+      SwitchCoolerOffApiResponse,
+      SwitchCoolerOffApiArg
+    >({
+      query: () => ({ url: `/rest/switch-cooler-off` }),
+    }),
+    switchCoolerOn: build.query<
+      SwitchCoolerOnApiResponse,
+      SwitchCoolerOnApiArg
+    >({
+      query: () => ({ url: `/rest/switch-cooler-on` }),
+    }),
+    getAllLedStrengths: build.query<
+      GetAllLedStrengthsApiResponse,
+      GetAllLedStrengthsApiArg
+    >({
+      query: () => ({ url: `/rest/all-led-strengths` }),
+    }),
+    setAllLedStrengths: build.mutation<
+      SetAllLedStrengthsApiResponse,
+      SetAllLedStrengthsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/rest/all-led-strengths`,
+        method: "POST",
+        params: { leds: queryArg.leds },
+      }),
+    }),
+    ledStrength: build.query<LedStrengthApiResponse, LedStrengthApiArg>({
+      query: (queryArg) => ({ url: `/rest/led-strength/${queryArg.ledId}` }),
+    }),
+    switchLedOff: build.query<SwitchLedOffApiResponse, SwitchLedOffApiArg>({
+      query: (queryArg) => ({ url: `/rest/switch-led-off/${queryArg.ledId}` }),
+    }),
+    switchLedOn: build.query<SwitchLedOnApiResponse, SwitchLedOnApiArg>({
+      query: (queryArg) => ({ url: `/rest/switch-led-on/${queryArg.ledId}` }),
+    }),
+    switchLedTo: build.query<SwitchLedToApiResponse, SwitchLedToApiArg>({
+      query: (queryArg) => ({
+        url: `/rest/dim-led-to/${queryArg.ledId}/${queryArg.nextStrength}`,
+      }),
+    }),
     pantiltOrientation: build.query<
       PantiltOrientationApiResponse,
       PantiltOrientationApiArg
@@ -53,6 +101,44 @@ export type AccelerometerGyroSensorApiArg = void;
 export type CurrentSensorApiResponse =
   /** status 200 Successful Response */ Ina219SensorReading;
 export type CurrentSensorApiArg = void;
+export type CoolerStrengthApiResponse =
+  /** status 200 Successful Response */ PwmDevice;
+export type CoolerStrengthApiArg = void;
+export type SwitchCoolerOffApiResponse =
+  /** status 200 Successful Response */ PwmDevice;
+export type SwitchCoolerOffApiArg = void;
+export type SwitchCoolerOnApiResponse =
+  /** status 200 Successful Response */ PwmDevice;
+export type SwitchCoolerOnApiArg = void;
+export type GetAllLedStrengthsApiResponse =
+  /** status 200 Successful Response */ PwmDevice[];
+export type GetAllLedStrengthsApiArg = void;
+export type SetAllLedStrengthsApiResponse =
+  /** status 200 Successful Response */ PwmDevice[];
+export type SetAllLedStrengthsApiArg = {
+  leds?: any;
+};
+export type LedStrengthApiResponse =
+  /** status 200 Successful Response */ PwmDevice;
+export type LedStrengthApiArg = {
+  ledId: number;
+};
+export type SwitchLedOffApiResponse =
+  /** status 200 Successful Response */ PwmDevice;
+export type SwitchLedOffApiArg = {
+  ledId: number;
+};
+export type SwitchLedOnApiResponse =
+  /** status 200 Successful Response */ PwmDevice;
+export type SwitchLedOnApiArg = {
+  ledId: number;
+};
+export type SwitchLedToApiResponse =
+  /** status 200 Successful Response */ PwmDevice;
+export type SwitchLedToApiArg = {
+  ledId: number;
+  nextStrength: number;
+};
 export type PantiltOrientationApiResponse =
   /** status 200 Successful Response */ PanTilt;
 export type PantiltOrientationApiArg = void;
@@ -94,9 +180,9 @@ export type Ina219SensorReading = {
   powerCalc: number;
   powerRegister: number;
 };
-export type PanTilt = {
-  pan?: number;
-  tilt?: number;
+export type PwmDevice = {
+  identifier?: number;
+  strength?: number;
 };
 export type ValidationError = {
   loc: (string | number)[];
@@ -106,11 +192,32 @@ export type ValidationError = {
 export type HttpValidationError = {
   detail?: ValidationError[];
 };
+export type PanTilt = {
+  pan?: number;
+  tilt?: number;
+};
 export const {
   useAccelerometerGyroSensorQuery,
   useLazyAccelerometerGyroSensorQuery,
   useCurrentSensorQuery,
   useLazyCurrentSensorQuery,
+  useCoolerStrengthQuery,
+  useLazyCoolerStrengthQuery,
+  useSwitchCoolerOffQuery,
+  useLazySwitchCoolerOffQuery,
+  useSwitchCoolerOnQuery,
+  useLazySwitchCoolerOnQuery,
+  useGetAllLedStrengthsQuery,
+  useLazyGetAllLedStrengthsQuery,
+  useSetAllLedStrengthsMutation,
+  useLedStrengthQuery,
+  useLazyLedStrengthQuery,
+  useSwitchLedOffQuery,
+  useLazySwitchLedOffQuery,
+  useSwitchLedOnQuery,
+  useLazySwitchLedOnQuery,
+  useSwitchLedToQuery,
+  useLazySwitchLedToQuery,
   usePantiltOrientationQuery,
   useLazyPantiltOrientationQuery,
   usePanToMinQuery,

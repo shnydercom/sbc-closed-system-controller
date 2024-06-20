@@ -1,3 +1,4 @@
+from typing import List
 from fastapi import APIRouter, Path
 import hardwarecom.rpi_servohat_pantilt_adafruit1967 as pantilt
 import hardwarecom.i2c_sensor_6dof_accgyro_lsm6dsox_adafruit4438 as accgyro
@@ -52,11 +53,34 @@ def switch_cooler_on() -> PWMDevice:
 ###
 
 
+@router.get("/all-led-strengths")
+def get_all_led_strengths() -> List[PWMDevice]:
+    result: List[PWMDevice] = []
+    for i in range(4, 16):
+        result.append(PWMDevice(identifier=i, strength=ledpwm.get_led_duty_cycle(i)))
+    return result
+
+
+@router.post("/all-led-strengths")
+def set_all_led_strengths(leds=List[PWMDevice]) -> List[PWMDevice]:
+    result: List[PWMDevice] = []
+    for i in range(4, 16):
+        result.append(
+            PWMDevice(
+                identifier=i,
+                strength=ledpwm.switch_led_to(
+                    led_id=i,
+                ),
+            ),
+        )
+    return result
+
+
 @router.get("/led-strength/{led_id}")
 def led_strength(
     led_id: int = Path(title="The id of the led"),
 ) -> PWMDevice:
-    return ledpwm.get_led_duty_cycle(led_id)
+    return PWMDevice(identifier=led_id, strength=ledpwm.get_led_duty_cycle(led_id))
 
 
 @router.get("/switch-led-off/{led_id}")
@@ -64,7 +88,7 @@ def switch_led_off(
     led_id: int = Path(title="The id of the led"),
 ) -> PWMDevice:
     strength = ledpwm.switch_led_off(led_id)
-    return PWMDevice(strength)
+    return PWMDevice(identifier=led_id, strength=strength)
 
 
 @router.get("/switch-led-on/{led_id}")
@@ -72,16 +96,16 @@ def switch_led_on(
     led_id: int = Path(title="The id of the led"),
 ) -> PWMDevice:
     strength = ledpwm.switch_led_on(led_id)
-    return PWMDevice(strength)
+    return PWMDevice(identifier=led_id, strength=strength)
 
 
 @router.get("/dim-led-to/{led_id}/{next_strength}")
-def switch_led_on(
+def switch_led_to(
     led_id: int = Path(title="The id of the led"),
-    next_strength: int = Path(title="The strength that the LED should change to"),
+    next_strength: float = Path(title="The strength that the LED should change to"),
 ) -> PWMDevice:
     strength = ledpwm.switch_led_to(led_id, strength=next_strength)
-    return PWMDevice(strength)
+    return PWMDevice(identifier=led_id, strength=strength)
 
 
 ############################

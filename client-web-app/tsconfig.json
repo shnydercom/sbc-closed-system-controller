@@ -6,6 +6,8 @@
     "module": "ESNext",
     "skipLibCheck": true,
 
+		"allowSyntheticDefaultImports":true,
+
     /* Bundler mode */
     "moduleResolution": "node",/*modified from "bundler" for rtk-query api generation*/
     "allowImportingTsExtensions": true,

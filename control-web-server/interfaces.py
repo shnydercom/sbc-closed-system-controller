@@ -32,6 +32,9 @@ class PanTilt(BaseModel):
 
 
 class PWMDevice(BaseModel):
+    identifier: int = Field(
+        default=None, title="A value to uniquely identify the device among others"
+    )
     strength: float = Field(
         default=0, title="how much of the duty cycle is 1 instead of 0"
     )
