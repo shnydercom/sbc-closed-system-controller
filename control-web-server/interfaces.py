@@ -3,6 +3,16 @@ from pydantic import BaseModel, Field
 from datetime import datetime
 
 
+class SystemHealthReading(BaseModel):
+    cpu_temp: float
+    cpu_usage: float
+
+
+class SolarChargerReading(BaseModel):
+    power_good: float
+    charging: float
+
+
 class AccelerometerGyroSensorReading(BaseModel):
     acceleration: Tuple[float, float, float]
     gyro: Tuple[float, float, float]
@@ -24,6 +34,8 @@ class SensorSummary(BaseModel):
     )
     currentSensor: Ina219SensorReading
     accgyroSensor: AccelerometerGyroSensorReading
+    systemHealth: SystemHealthReading
+    chargerSensor: SolarChargerReading
 
 
 class PanTilt(BaseModel):

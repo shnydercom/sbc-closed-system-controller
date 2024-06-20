@@ -15,7 +15,6 @@ export const ExtraFanControl = () => {
 	const booleanCoolerValue = (coolerStrengthQ.data?.strength ?? 0) > 0
 	return (
 		<Stack direction="column" mt={2}>
-			{"bla"+booleanCoolerValue}
 			<Typography variant="caption">Extra Fan Control</Typography>
 			<FormControlLabel control={
 				<Switch

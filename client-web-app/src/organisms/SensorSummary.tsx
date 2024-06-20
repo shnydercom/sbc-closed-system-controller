@@ -1,12 +1,14 @@
 import { Box } from "@mui/material";
 import { MomentSensorReadings, MomentSensorReadingsProps } from "../molecules";
 
-import { useCurrentSensorQuery, useAccelerometerGyroSensorQuery } from "../store/rtkQueryClientApi"
+import { useCurrentSensorQuery, useAccelerometerGyroSensorQuery, useSystemHealthSensorsQuery, useSolarChargerQuery } from "../store/rtkQueryClientApi"
 
 export const SensorSummary = () => {
 	const sensorReadings: MomentSensorReadingsProps[] = [];
 	const currentSensorQ = useCurrentSensorQuery(undefined, { pollingInterval: 300 });
 	const accelerometerQ = useAccelerometerGyroSensorQuery(undefined, { pollingInterval: 300 });
+	const systemHealthQ = useSystemHealthSensorsQuery(undefined, {pollingInterval: 1000})
+	const solarChargerQ = useSolarChargerQuery(undefined, {pollingInterval: 2000});
 
 	if (currentSensorQ.isSuccess) {
 		const currentSensorFormatted = formatValuesToString(currentSensorQ.data);
@@ -16,6 +18,15 @@ export const SensorSummary = () => {
 		const accelGyroSensorFormatted = formatValuesToString(accelerometerQ.data);
 		sensorReadings.push({ sensorHeading: "accelerometer (in m/s^2, radians/s)", readings: accelGyroSensorFormatted })
 	}
+	if ( systemHealthQ.isSuccess) {
+		const systemHealthFormatted = formatValuesToString(systemHealthQ.data);
+		sensorReadings.push({ sensorHeading: "system health (CPU temp, usage)", readings: systemHealthFormatted})
+	}
+	if ( solarChargerQ.isSuccess) {
+		const solarChargingFormatted = formatValuesToString(solarChargerQ.data);
+		sensorReadings.push({ sensorHeading: "solar charger (Status LEDs)", readings: solarChargingFormatted})
+	}
+
 	return (
 		<Box>
 			{

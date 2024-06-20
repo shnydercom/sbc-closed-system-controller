@@ -1,6 +1,15 @@
 import { emptySplitApi as api } from "./emptyApi";
 const injectedRtkApi = api.injectEndpoints({
   endpoints: (build) => ({
+    systemHealthSensors: build.query<
+      SystemHealthSensorsApiResponse,
+      SystemHealthSensorsApiArg
+    >({
+      query: () => ({ url: `/rest/system-health-sensors` }),
+    }),
+    solarCharger: build.query<SolarChargerApiResponse, SolarChargerApiArg>({
+      query: () => ({ url: `/rest/solar-charger` }),
+    }),
     accelerometerGyroSensor: build.query<
       AccelerometerGyroSensorApiResponse,
       AccelerometerGyroSensorApiArg
@@ -95,6 +104,12 @@ const injectedRtkApi = api.injectEndpoints({
   overrideExisting: false,
 });
 export { injectedRtkApi as rtkQueryClientApi };
+export type SystemHealthSensorsApiResponse =
+  /** status 200 Successful Response */ SystemHealthReading;
+export type SystemHealthSensorsApiArg = void;
+export type SolarChargerApiResponse =
+  /** status 200 Successful Response */ SolarChargerReading;
+export type SolarChargerApiArg = void;
 export type AccelerometerGyroSensorApiResponse =
   /** status 200 Successful Response */ AccelerometerGyroSensorReading;
 export type AccelerometerGyroSensorApiArg = void;
@@ -168,6 +183,14 @@ export type TiltByApiArg = {
 };
 export type ReadIndexApiResponse = /** status 200 Successful Response */ any;
 export type ReadIndexApiArg = void;
+export type SystemHealthReading = {
+  cpu_temp: number;
+  cpu_usage: number;
+};
+export type SolarChargerReading = {
+  power_good: number;
+  charging: number;
+};
 export type AccelerometerGyroSensorReading = {
   acceleration: [number, number, number];
   gyro: [number, number, number];
@@ -197,6 +220,10 @@ export type PanTilt = {
   tilt?: number;
 };
 export const {
+  useSystemHealthSensorsQuery,
+  useLazySystemHealthSensorsQuery,
+  useSolarChargerQuery,
+  useLazySolarChargerQuery,
   useAccelerometerGyroSensorQuery,
   useLazyAccelerometerGyroSensorQuery,
   useCurrentSensorQuery,

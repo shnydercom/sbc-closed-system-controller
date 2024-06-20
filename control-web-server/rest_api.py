@@ -4,14 +4,39 @@ import hardwarecom.rpi_servohat_pantilt_adafruit1967 as pantilt
 import hardwarecom.i2c_sensor_6dof_accgyro_lsm6dsox_adafruit4438 as accgyro
 import hardwarecom.i2c_sensor_current_ina219_adafruit904 as currentSensor
 import hardwarecom.rpi_servohat_led_pwm_adafruit2327 as ledpwm
+import hardwarecom.rpi_gpiozero_sensors_cputemp as gpio_sensors_cputemp
 from interfaces import (
     AccelerometerGyroSensorReading,
     Ina219SensorReading,
     PWMDevice,
     PanTilt,
+    SystemHealthReading,
+    SolarChargerReading,
 )
 
 router = APIRouter(prefix="/rest")
+
+
+############################
+# System health sensors
+############################
+@router.get("/system-health-sensors")
+def system_health_sensors() -> SystemHealthReading:
+    return SystemHealthReading(
+        cpu_usage=gpio_sensors_cputemp.get_cpu_usage(),
+        cpu_temp=gpio_sensors_cputemp.get_cpu_temp(),
+    )
+
+
+############################
+# Solar charger status sensors
+############################
+@router.get("/solar-charger")
+def solar_charger() -> SolarChargerReading:
+    return SolarChargerReading(
+        power_good=gpio_sensors_cputemp.get_solarcharger_powergood(),
+        charging=gpio_sensors_cputemp.get_solarcharger_charging(),
+    )
 
 
 ############################
