@@ -1,4 +1,4 @@
-import { Stack, Typography } from "@mui/material";
+import { Stack, Typography, debounce } from "@mui/material";
 import { PercentageControlRow } from "../molecules";
 import { PercentageControl } from "../interfaces";
 import { useGetAllLedStrengthsQuery, useLazySwitchLedToQuery } from "../store/rtkQueryClientApi"
@@ -20,17 +20,20 @@ export const LEDControls = () => {
 			}
 		}
 		lowerLeds = upperLeds.splice(Math.floor(upperLeds.length / 2), Math.floor(upperLeds.length / 2))
+		//reversing because of physical orientation of camera to LED rows
+		upperLeds.reverse()
+		lowerLeds.reverse()
 	}
 
-	const onChange = (nextValue: PercentageControl) => {
+	const onChange = debounce((nextValue: PercentageControl) => {
 		triggerLEDSwitch({ ledId: nextValue.identifier, nextStrength: nextValue.percentage })
-	}
+	}, 200)
 
 	return (
-		<Stack direction={"column"}  mt={2}>
+		<Stack direction={"column"} mt={2}>
 			<Typography variant="caption">Upper LEDs</Typography>
 			<PercentageControlRow controls={upperLeds} onChange={onChange} />
-			<Typography variant="caption">Lower LEDs</Typography>
+			<Typography variant="caption" mt={2}>Lower LEDs</Typography>
 			<PercentageControlRow controls={lowerLeds} onChange={onChange} />
 		</Stack>);
 }

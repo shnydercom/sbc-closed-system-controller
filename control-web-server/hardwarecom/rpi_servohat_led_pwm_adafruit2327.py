@@ -33,10 +33,13 @@ def switch_cooler_on():
 # pins on the 16-channel servo pwm used for LEDs
 acceptable_led_ids = range(4, 16)
 
+# divisor/multiplicator equal to 0xFFF
+maxVal = 65535
+
 
 def get_led_duty_cycle(led_id: int):
     if led_id in acceptable_led_ids:
-        return hat.channels[led_id].duty_cycle
+        return hat.channels[led_id].duty_cycle / maxVal
     raise ValueError("led_id was out of acceptable range")
 
 
@@ -58,7 +61,7 @@ def switch_led_to(led_id: int, strength: float) -> float:
     if strength > 1 or strength < 0:
         raise ValueError("strength must be between 0 and 1 (100%)")
     if led_id in acceptable_led_ids:
-        newstrength: int = int(strength * 65535)
+        newstrength: int = int(strength * maxVal)
         hat.channels[led_id].duty_cycle = newstrength
-        return newstrength / 65535
+        return newstrength / maxVal
     raise ValueError("led_id was out of acceptable range")
