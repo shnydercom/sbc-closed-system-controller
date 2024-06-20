@@ -15,7 +15,7 @@ from picamera2 import Picamera2
 from picamera2.encoders import MJPEGEncoder
 from picamera2.outputs import FileOutput
 
-ROTATION = 270  # Use 0, 90 or 270
+ROTATION = 0  # Use 0, 90 or 270
 WIDTH = 640
 HEIGHT = 480
 

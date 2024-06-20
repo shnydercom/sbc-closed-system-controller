@@ -1,10 +1,12 @@
 from typing import List
 from fastapi import APIRouter, Path
+from fastapi.responses import StreamingResponse
 import hardwarecom.rpi_servohat_pantilt_adafruit1967 as pantilt
 import hardwarecom.i2c_sensor_6dof_accgyro_lsm6dsox_adafruit4438 as accgyro
 import hardwarecom.i2c_sensor_current_ina219_adafruit904 as currentSensor
 import hardwarecom.rpi_servohat_led_pwm_adafruit2327 as ledpwm
 import hardwarecom.rpi_gpiozero_sensors_cputemp as gpio_sensors_cputemp
+from hardwarecom.rpi_camera_module3 import StreamRecorderCamera
 from interfaces import (
     AccelerometerGyroSensorReading,
     Ina219SensorReading,
@@ -17,13 +19,36 @@ from interfaces import (
 router = APIRouter(prefix="/rest")
 
 
-##
-@router.get("/videofeed")
-def video_feed():
-    # Camera().startLiveStream()
-    # return Response(gen(Camera()),
-    #                mimetype='multipart/x-mixed-replace; boundary=frame')
-    return
+inner_cam = StreamRecorderCamera(0)
+outer_cam = StreamRecorderCamera(1)
+
+
+async def video_streamer(camera: StreamRecorderCamera):
+    """Video streaming generator function."""
+    # inspired by raspiCamSrv: https://github.com/signag/raspi-cam-srv
+    yield b"--frame\r\n"
+    while True:
+        frame = camera.get_latest_output()
+        if frame:
+            yield b"Content-Type: image/jpeg\r\nContent-Length: " + bytes(
+                len(frame)
+            ) + b"\r\n\r\n" + frame + b"\r\n--frame\r\n"
+            # b"Content-Length: " + len(frame) + b"\r\n\r\n"  +
+
+
+# more details: https://fastapi.tiangolo.com/advanced/custom-response/?h=stream#streamingresponse
+@router.get("/inner-video-stream")
+async def inner_video_stream():
+    return StreamingResponse(
+        video_streamer(inner_cam), media_type="multipart/x-mixed-replace;boundary=frame"
+    )
+
+
+@router.get("/outer-video-stream")
+async def outer_video_stream():
+    return StreamingResponse(
+        video_streamer(outer_cam), media_type="multipart/x-mixed-replace;boundary=frame"
+    )
 
 
 ############################
