@@ -9,13 +9,15 @@ kit = ServoKit(i2c=i2c, channels=16)
 
 # pin on the 16-channel servo pwm used for controlling an additional cooler
 cooler_id = 2
+# divisor/multiplicator equal to 0xFFF
+maxVal = 65535
 
 
 #####################
 # additional pwm cooler speed adjustment:
 #####################
 def get_cooler_duty_cycle():
-    return hat.channels[cooler_id].duty_cycle
+    return hat.channels[cooler_id].duty_cycle / maxVal
 
 
 def switch_cooler_off():
@@ -32,9 +34,6 @@ def switch_cooler_on():
 
 # pins on the 16-channel servo pwm used for LEDs
 acceptable_led_ids = range(4, 16)
-
-# divisor/multiplicator equal to 0xFFF
-maxVal = 65535
 
 
 def get_led_duty_cycle(led_id: int):

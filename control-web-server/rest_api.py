@@ -35,19 +35,19 @@ def current_sensor() -> Ina219SensorReading:
 ############################
 @router.get("/cooler-strength")
 def cooler_strength() -> PWMDevice:
-    return ledpwm.get_cooler_duty_cycle()
+    return PWMDevice(identifier=2, strength=ledpwm.get_cooler_duty_cycle())
 
 
 @router.get("/switch-cooler-off")
 def switch_cooler_off() -> PWMDevice:
     ledpwm.switch_cooler_off()
-    return PWMDevice(strength=0)
+    return PWMDevice(identifier=2, strength=0)
 
 
 @router.get("/switch-cooler-on")
 def switch_cooler_on() -> PWMDevice:
     ledpwm.switch_cooler_on()
-    return PWMDevice(strength=1)
+    return PWMDevice(identifier=2, strength=1)
 
 
 ###
