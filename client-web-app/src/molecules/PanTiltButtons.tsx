@@ -30,6 +30,8 @@ export const PanTiltButtons: React.FC<PanTiltButtonsProps> = ({ panRange, tiltRa
 				const btnText: string = `← ${newPan}${unitStr} ↓${newTilt}${unitStr}`;
 				const newButton = <Button
 					key={`ptBtn-${tiltIterator}-${panIterator}`}
+					size='small'
+					sx={{fontSize: "0.75rem"}}
 					onClick={() => {
 						onDirectionButtonClicked({ pan: newPan, tilt: newTilt })
 					}}

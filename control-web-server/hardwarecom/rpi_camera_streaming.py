@@ -22,7 +22,7 @@ class StreamingCamera:
     def __init__(self, camera_num):
         self.picam2 = Picamera2(camera_num)
         self.picam2.configure(
-            self.picam2.create_video_configuration(main={"size": (640, 480)})
+            self.picam2.create_video_configuration(main={"size": (320, 240)})
         )
         self.output = StreamingOutput()
         self.picam2.start_recording(JpegEncoder(), FileOutput(self.output))

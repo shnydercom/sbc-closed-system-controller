@@ -30,7 +30,7 @@ export const LEDControls = () => {
 	}, 200)
 
 	return (
-		<Paper sx={{ padding: 2, display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 5 }}>
+		<Paper sx={{ paddingTop: 1, paddingBottom: 2, paddingLeft: 1, paddingRight: 1, display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 5 }}>
 			<Stack direction={"column"}>
 				<Typography variant="caption">Upper LEDs</Typography>
 				<PercentageControlRow controls={upperLeds} onChange={onChange} />

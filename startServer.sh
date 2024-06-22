@@ -1,3 +1,3 @@
 cd ./control-web-server
 . .venv/bin/activate
-flask run --host=0.0.0.0
+fastapi run main.py --host=0.0.0.0

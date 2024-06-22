@@ -11,11 +11,11 @@ function App() {
 				<Stack direction="row" gap={2} flexWrap={'wrap'}>
 					<Stack direction="column" gap={1}>
 						<PanTiltServoControls />
+						<VideoDisplays/>
 						<LEDControls />
 						<ExtraFanControl />
 					</Stack>
 					<Stack direction="column">
-						<VideoDisplays/>
 						<SensorSummary />
 					</Stack>
 				</Stack>
