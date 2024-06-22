@@ -2,7 +2,6 @@ from fastapi import FastAPI, WebSocket
 from fastapi.responses import FileResponse
 from fastapi.routing import APIRoute
 from fastapi.staticfiles import StaticFiles
-import hardwarecom.rpi_servohat_pantilt_adafruit1967 as pantilt
 from rest_api import router
 
 app = FastAPI()

@@ -6,7 +6,9 @@ import hardwarecom.i2c_sensor_6dof_accgyro_lsm6dsox_adafruit4438 as accgyro
 import hardwarecom.i2c_sensor_current_ina219_adafruit904 as currentSensor
 import hardwarecom.rpi_servohat_led_pwm_adafruit2327 as ledpwm
 import hardwarecom.rpi_gpiozero_sensors_cputemp as gpio_sensors_cputemp
-from hardwarecom.rpi_camera_module3 import StreamRecorderCamera
+from hardwarecom.rpi_camera_streaming import StreamingCamera
+
+# from hardwarecom.rpi_camera_module3 import StreamRecorderCamera
 from interfaces import (
     AccelerometerGyroSensorReading,
     Ina219SensorReading,
@@ -15,40 +17,45 @@ from interfaces import (
     SystemHealthReading,
     SolarChargerReading,
 )
+from _thread import get_ident
 
 router = APIRouter(prefix="/rest")
 
 
-inner_cam = StreamRecorderCamera(0)
-outer_cam = StreamRecorderCamera(1)
+inner_cam = StreamingCamera(0)
+outer_cam = StreamingCamera(1)
 
 
-async def video_streamer(camera: StreamRecorderCamera):
-    """Video streaming generator function."""
-    # inspired by raspiCamSrv: https://github.com/signag/raspi-cam-srv
-    yield b"--frame\r\n"
-    while True:
-        frame = camera.get_latest_output()
-        if frame:
-            yield b"Content-Type: image/jpeg\r\nContent-Length: " + bytes(
-                len(frame)
-            ) + b"\r\n\r\n" + frame + b"\r\n--frame\r\n"
-            # b"Content-Length: " + len(frame) + b"\r\n\r\n"  +
-
-
-# more details: https://fastapi.tiangolo.com/advanced/custom-response/?h=stream#streamingresponse
-@router.get("/inner-video-stream")
-async def inner_video_stream():
-    return StreamingResponse(
-        video_streamer(inner_cam), media_type="multipart/x-mixed-replace;boundary=frame"
+@router.get("/inner-video-stream", response_class=StreamingResponse)
+def inner_video_stream():
+    print("Thread %s: In inner_video_stream", get_ident())
+    response = StreamingResponse(
+        inner_cam.get_frame(),
+        # media_type="multipart/x-mixed-replace;boundary=frame",
+        headers={
+            "Age": "0",
+            "Cache-Control": "no-cache, private",
+            "Pragma": "no-cache",
+            "Content-Type": "multipart/x-mixed-replace; boundary=FRAME",
+        },
     )
+    return response
 
 
-@router.get("/outer-video-stream")
-async def outer_video_stream():
-    return StreamingResponse(
-        video_streamer(outer_cam), media_type="multipart/x-mixed-replace;boundary=frame"
+@router.get("/outer-video-stream", response_class=StreamingResponse)
+def outer_video_stream():
+    print("Thread %s: In outer_video_stream", get_ident())
+    response = StreamingResponse(
+        outer_cam.get_frame(),
+        # media_type="multipart/x-mixed-replace;boundary=frame",
+        headers={
+            "Age": "0",
+            "Cache-Control": "no-cache, private",
+            "Pragma": "no-cache",
+            "Content-Type": "multipart/x-mixed-replace; boundary=FRAME",
+        },
     )
+    return response
 
 
 ############################
