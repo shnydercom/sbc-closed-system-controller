@@ -7,6 +7,7 @@ import hardwarecom.i2c_sensor_current_ina219_adafruit904 as currentSensor
 import hardwarecom.rpi_servohat_led_pwm_adafruit2327 as ledpwm
 import hardwarecom.rpi_gpiozero_sensors_cputemp as gpio_sensors_cputemp
 from hardwarecom.rpi_camera_streaming import StreamingCamera
+from data_recorder import DataRecorder
 
 # from hardwarecom.rpi_camera_module3 import StreamRecorderCamera
 from interfaces import (
@@ -24,6 +25,25 @@ router = APIRouter(prefix="/rest")
 
 inner_cam = StreamingCamera(0)
 outer_cam = StreamingCamera(1)
+
+data_recorder = DataRecorder(20, inner_cam=inner_cam, outer_cam=outer_cam)
+
+
+@router.get("/start-data-recording")
+def start_recorder() -> bool:
+    data_recorder.trigger_start()
+    return True
+
+
+@router.get("/stop-data-recording")
+def stop_recorder() -> bool:
+    data_recorder.trigger_stop()
+    return True
+
+
+@router.get("/is-data-recording")
+def stop_recorder() -> bool:
+    return data_recorder.is_recording()
 
 
 @router.get("/inner-video-stream", response_class=StreamingResponse)
