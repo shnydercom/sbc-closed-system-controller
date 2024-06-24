@@ -26,7 +26,7 @@ router = APIRouter(prefix="/rest")
 inner_cam = StreamingCamera(0)
 outer_cam = StreamingCamera(1)
 
-data_recorder = DataRecorder(20, inner_cam=inner_cam, outer_cam=outer_cam)
+data_recorder = DataRecorder(5, inner_cam=inner_cam, outer_cam=outer_cam)
 
 
 @router.get("/start-data-recording")
