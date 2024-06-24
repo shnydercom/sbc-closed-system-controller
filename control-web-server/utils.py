@@ -7,11 +7,15 @@ def do_every(period_in_s, f, *args):
         t = time.time()
         while True:
             t += period_in_s
-            yield max(t - time.time(), 0)
+            result = max(t - time.time(), 0)
+            print(result)
+            yield result
 
     g = g_tick()
     while True:
+        print("do_every while" + str(period_in_s))
         time.sleep(next(g))
+        print("doing" + str(period_in_s))
         f(*args)
 
 

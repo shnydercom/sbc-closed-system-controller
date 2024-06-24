@@ -30,8 +30,8 @@ thickness = 1
 
 
 class StreamingCamera:
-    def __init__(self, camera_num):
-        self.picam2 = Picamera2(camera_num)
+    def __init__(self, camera_idx):
+        self.picam2 = Picamera2(camera_idx)
         self.picam2.configure(
             self.picam2.create_video_configuration(
                 main={"size": (1920, 1080)},

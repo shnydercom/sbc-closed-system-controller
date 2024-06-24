@@ -11,3 +11,8 @@ def read_accelerometer_and_gyro_sensor() -> AccelerometerGyroSensorReading:
         acceleration=sensor.acceleration, gyro=sensor.gyro
     )
     return result
+
+
+def read_accelerometer_and_gyro_sensor_flat():
+    result = {"acceleration": str(sensor.acceleration), "gyro": str(sensor.gyro)}
+    return result

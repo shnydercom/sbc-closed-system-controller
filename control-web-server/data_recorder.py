@@ -1,9 +1,17 @@
-from datetime import datetime, UTC
-from hardwarecom.rpi_camera_streaming import StreamingCamera
 import os
-from utils import do_every
+from enum import StrEnum
 from time import sleep
 import threading
+from datetime import datetime, UTC
+from utils import do_every
+from hardwarecom.rpi_camera_streaming import StreamingCamera
+from hardwarecom.sensorarray_streaming import StreamingSensorArray
+
+
+class RECORDING_CONTENT(StrEnum):
+    OUTER = "_outer_"
+    INNER = "_inner_"
+    SENSORS = "_sensors_"
 
 
 def get_timestamp():
@@ -28,11 +36,13 @@ class DataRecorder:
         chunk_timeframe_seconds,
         inner_cam: StreamingCamera,
         outer_cam: StreamingCamera,
+        sensor_array: StreamingSensorArray,
     ):
         self.recorder_start_datetime = None
         self.chunk_timeframe_size = chunk_timeframe_seconds
         self.inner_cam = inner_cam
         self.outer_cam = outer_cam
+        self.sensor_array = sensor_array
         self.chunk_idx = 0
         self.is_recording = False
         # try to get to full seconds as closely as possible, with a bit of tolerance
@@ -46,15 +56,12 @@ class DataRecorder:
     def timer_thread_fn(self):
         do_every(self.chunk_timeframe_size, self.trigger_filetransition)
 
-    def make_filename(self, is_inner: bool = False):
-        cam_name = "_outerCam_"
-        if is_inner:
-            cam_name = "_innerCam_"
+    def make_filename(self, rec_content: RECORDING_CONTENT):
         filename = str(
             TODAYS_RECORDINGS
             + "/"
             + self.recorder_start_datetime
-            + cam_name
+            + rec_content
             + str(self.chunk_idx)
         )
         return filename
@@ -64,10 +71,12 @@ class DataRecorder:
             raise ValueError("tried to start recording while system is recording")
         self.chunk_idx = 1
         self.recorder_start_datetime = get_timestamp()
-        innercam_filename = self.make_filename(is_inner=True)
-        outercam_filename = self.make_filename()
+        innercam_filename = self.make_filename(rec_content=RECORDING_CONTENT.INNER)
+        outercam_filename = self.make_filename(rec_content=RECORDING_CONTENT.OUTER)
+        sensors_filename = self.make_filename(rec_content=RECORDING_CONTENT.SENSORS)
         self.inner_cam.start_recording(innercam_filename)
         self.outer_cam.start_recording(outercam_filename)
+        self.sensor_array.start_recording(sensors_filename)
         self.is_recording = True
         # do_every(20, self.trigger_filetransition)
 
@@ -75,18 +84,23 @@ class DataRecorder:
         if not self.is_recording:
             return
         self.chunk_idx = self.chunk_idx + 1
-        innercam_filename = self.make_filename(is_inner=True)
-        outercam_filename = self.make_filename()
+        innercam_filename = self.make_filename(rec_content=RECORDING_CONTENT.INNER)
+        outercam_filename = self.make_filename(rec_content=RECORDING_CONTENT.OUTER)
+        sensors_filename = self.make_filename(rec_content=RECORDING_CONTENT.SENSORS)
         self.inner_cam.stop_recording()
         self.outer_cam.stop_recording()
+        self.sensor_array.stop_recording()
         self.inner_cam.start_recording(innercam_filename)
         self.outer_cam.start_recording(outercam_filename)
-        print("transitioning file")
+        self.sensor_array.start_recording(sensors_filename)
+        # print("transitioning file") # printing takes CPU time and leads to frame drops, only for debugging
 
     def trigger_stop(self):
+        print("trigger stop")
         if not self.is_recording:
             raise ValueError("tried to stop recording while system is not recording")
         self.inner_cam.stop_recording()
         self.outer_cam.stop_recording()
+        self.sensor_array.stop_recording()
         self.is_recording = False
         self.chunk_idx = 0

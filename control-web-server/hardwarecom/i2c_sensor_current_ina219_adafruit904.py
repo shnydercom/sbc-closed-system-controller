@@ -40,3 +40,19 @@ def read_current_sensor() -> Ina219SensorReading:
         powerRegister=powerA,
     )
     return result
+
+
+def read_current_sensor_flat():
+    bus_voltageA = ina219A.bus_voltage  # voltage on V- (load side)
+    shunt_voltageA = ina219A.shunt_voltage  # voltage between V+ and V- across the shunt
+    currentA = ina219A.current  # current in mA
+    powerA = ina219A.power  # power in watts
+    result = {
+        "vin_plus_voltage": bus_voltageA + shunt_voltageA,
+        "bus_voltage": bus_voltageA,  # voltage on V- (load side)
+        "shunt_voltage": shunt_voltageA,  # voltage between V+ and V- across the shunt
+        "current": currentA,  # current in mA
+        "powerCalc": bus_voltageA * (currentA / 1000),  # power in Watts
+        "powerRegister": powerA,
+    }
+    return result
