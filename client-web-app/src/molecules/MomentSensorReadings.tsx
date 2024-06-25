@@ -14,7 +14,7 @@ export const MomentSensorReadings = ({ sensorHeading, readings, isWarning }: Mom
 				display={"grid"} 
 				gridAutoFlow="column" 
 				gap="4px" 
-				gridTemplateRows={`repeat(${descriptions.length}, 24px)`} gridTemplateColumns={"160px"}
+				gridTemplateRows={`repeat(${descriptions.length}, 24px)`} gridTemplateColumns={"120px"}
 				bgcolor={isWarning ? "red" : undefined}
 				>
 				{descriptions.map((entry, idx) => {
