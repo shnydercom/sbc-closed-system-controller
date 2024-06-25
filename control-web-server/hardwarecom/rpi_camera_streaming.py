@@ -36,7 +36,7 @@ class StreamingCamera:
         self.picam2.configure(
             self.picam2.create_video_configuration(
                 main={"size": (1920, 1080), "format": "YUV420"},
-                lores={"size": (320, 240), "format": "YUV420"},
+                lores={"size": (320, 240), "format": "RGB888"},
             )
         )
         self.picam2.set_controls({"AfMode": controls.AfModeEnum.Continuous})
