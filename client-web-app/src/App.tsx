@@ -10,7 +10,7 @@ function App() {
 	const matches = useMediaQuery('(min-width:600px)');
 	const PaperOrNoPaper = matches
 		? (props: React.PropsWithChildren<{}>) =>
-			<Paper sx={{ marginLeft: 1, marginRight: 1,  }}>{props.children}</Paper>
+			<Paper sx={{ margin: 1 }}>{props.children}</Paper>
 		: (props: React.PropsWithChildren<{}>) => <>{props.children}</>
 	return (
 		<>

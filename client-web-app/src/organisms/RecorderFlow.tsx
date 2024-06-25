@@ -16,10 +16,12 @@ export const RecorderFlow = () => {
 		triggerRecordingStop()
 	};
 	const isRecordingValue = isRecordingQ.data ?? false;
+
 	return <>
 		<ToggleButton sx={{ mr: 2 }}
 			disabled={!isRecordingQ.isSuccess || _recordingStartQ.isLoading || _recordingStopQ.isLoading}
 			value="check"
+			size="small"
 			selected={isRecordingValue}
 			onChange={handleChange}>
 			{
