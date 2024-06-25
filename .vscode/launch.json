@@ -1,6 +1,7 @@
 {
 	"version": "0.2.0",
 	"configurations": [
+
 		{
 			"name": "FastAPI Python Debugger",
 			"type": "debugpy",
@@ -45,6 +46,13 @@
 			"name": "client: BUILD",
 			"request": "launch",
 			"command": "npm run build",
+			"cwd": "${workspaceFolder}/client-web-app"
+		},
+		{
+			"type": "node-terminal",
+			"name": "client: GEN API",
+			"request": "launch",
+			"command": "npm run generate",
 			"cwd": "${workspaceFolder}/client-web-app"
 		}
 	]

@@ -20,7 +20,8 @@ export const SensorSummary = () => {
 	}
 	if ( systemHealthQ.isSuccess) {
 		const systemHealthFormatted = formatValuesToString(systemHealthQ.data);
-		sensorReadings.push({ sensorHeading: "system health (CPU temp, usage)", readings: systemHealthFormatted})
+		const isWarning = systemHealthQ.data.cpu_temp > 48;
+		sensorReadings.push({ sensorHeading: "system health (CPU temp, usage)", readings: systemHealthFormatted, isWarning})
 	}
 	if ( solarChargerQ.isSuccess) {
 		const solarChargingFormatted = formatValuesToString(solarChargerQ.data);
@@ -35,6 +36,7 @@ export const SensorSummary = () => {
 						key={`sensor-${idx}`}
 						sensorHeading={sensorReading.sensorHeading}
 						readings={sensorReading.readings}
+						isWarning={sensorReading.isWarning}
 					/>
 				})
 			}

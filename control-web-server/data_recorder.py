@@ -44,7 +44,8 @@ class DataRecorder:
         self.outer_cam = outer_cam
         self.sensor_array = sensor_array
         self.chunk_idx = 0
-        self.is_recording = False
+        self._is_recording_internal = False
+        self.is_recording_external = False
         # try to get to full seconds as closely as possible, with a bit of tolerance
         fullsec_wait = (999999 - datetime.now().microsecond - 100) / 999999
         sleep(fullsec_wait)
@@ -67,7 +68,7 @@ class DataRecorder:
         return filename
 
     def trigger_start(self):
-        if self.is_recording:
+        if self._is_recording_internal:
             raise ValueError("tried to start recording while system is recording")
         self.chunk_idx = 1
         self.recorder_start_datetime = get_timestamp()
@@ -77,13 +78,15 @@ class DataRecorder:
         self.inner_cam.start_recording(innercam_filename)
         self.outer_cam.start_recording(outercam_filename)
         self.sensor_array.start_recording(sensors_filename)
-        self.is_recording = True
+        self._is_recording_internal = True
+        self.is_recording_external = True
         # do_every(20, self.trigger_filetransition)
 
     def trigger_filetransition(self):
-        if not self.is_recording:
+        if not self._is_recording_internal:
             return
-        self.is_recording = False
+        self._is_recording_internal = False
+        # self.is_recording_external is not changed! Internal is for safe file writing, external is for UX
         self.chunk_idx = self.chunk_idx + 1
         innercam_filename = self.make_filename(rec_content=RECORDING_CONTENT.INNER)
         outercam_filename = self.make_filename(rec_content=RECORDING_CONTENT.OUTER)
@@ -94,15 +97,16 @@ class DataRecorder:
         self.inner_cam.start_recording(innercam_filename)
         self.outer_cam.start_recording(outercam_filename)
         self.sensor_array.start_recording(sensors_filename)
-        self.is_recording = True
+        self._is_recording_internal = True
         # print("transitioning file") # printing takes CPU time and leads to frame drops, only for debugging
 
     def trigger_stop(self):
         # print("trigger stop")
-        if not self.is_recording:
+        if not self._is_recording_internal:
             raise ValueError("tried to stop recording while system is not recording")
         self.inner_cam.stop_recording()
         self.outer_cam.stop_recording()
         self.sensor_array.stop_recording()
-        self.is_recording = False
+        self._is_recording_internal = False
+        self.is_recording_external = False
         self.chunk_idx = 0

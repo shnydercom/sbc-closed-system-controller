@@ -50,7 +50,7 @@ def stop_recorder() -> bool:
 
 @router.get("/is-data-recording")
 def is_data_recording() -> bool:
-    return data_recorder.is_recording
+    return data_recorder.is_recording_external
 
 
 @router.get("/inner-video-stream", response_class=StreamingResponse)

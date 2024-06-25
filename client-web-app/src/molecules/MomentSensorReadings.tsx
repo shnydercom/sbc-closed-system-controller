@@ -3,13 +3,20 @@ import { Box, Typography } from "@mui/material";
 export interface MomentSensorReadingsProps {
 	sensorHeading: string;
 	readings: { [s: string]: string }
+	isWarning?: boolean;
 }
-export const MomentSensorReadings = ({ sensorHeading, readings }: MomentSensorReadingsProps) => {
+export const MomentSensorReadings = ({ sensorHeading, readings, isWarning }: MomentSensorReadingsProps) => {
 	const descriptions = Array.from(Object.keys(readings));
 	return (
 		<Box display={"flex"} flexDirection={"column"} mt={2}>
 			<Typography variant="caption">{sensorHeading}</Typography>
-			<Box display={"grid"} gridAutoFlow="column" gap="4px" gridTemplateRows={`repeat(${descriptions.length}, 24px)`} gridTemplateColumns={"160px"}>
+			<Box 
+				display={"grid"} 
+				gridAutoFlow="column" 
+				gap="4px" 
+				gridTemplateRows={`repeat(${descriptions.length}, 24px)`} gridTemplateColumns={"160px"}
+				bgcolor={isWarning ? "red" : undefined}
+				>
 				{descriptions.map((entry, idx) => {
 					return (
 						<Typography key={`desc-${idx}`}>{entry}</Typography>
