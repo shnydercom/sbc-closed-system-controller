@@ -8,14 +8,14 @@ def do_every(period_in_s, f, *args):
         while True:
             t += period_in_s
             result = max(t - time.time(), 0)
-            print(result)
+            # print(result)
             yield result
 
     g = g_tick()
     while True:
-        print("do_every while" + str(period_in_s))
+        # print("do_every while " + str(period_in_s))
         time.sleep(next(g))
-        print("doing" + str(period_in_s))
+        # print("doing" + str(period_in_s))
         f(*args)
 
 

@@ -32,14 +32,17 @@ class StreamingSensorArray:
     def _thread_fn(self):
         fps_in_s = 1 / self.sensor_fps
         try:
+            self._readwrite_sensors(self.open_file)
             do_every(fps_in_s, self._readwrite_sensors, self.open_file)
         except ValueError as ve:
-            print("val error" + str(ve))
+            # print("val error" + str(ve))
             return
         except Exception as e:
-            print("other Exc" + str(e))
+            # print("other Exc" + str(e))
+            return
         finally:
-            print("finally")
+            # print("finally")
+            return
 
     def get_all_sensors_timestamped(self) -> SensorSummary:
         result = SensorSummary(
@@ -95,12 +98,12 @@ class StreamingSensorArray:
         self.closing = False
         self.open_file = open(file=output_filename + ".csv", mode="x")
         self.create_new_thread()
-        print("starting")
+        # print("starting")
 
     def stop_recording(self):
-        print("call stop_rec")
+        # print("call stop_rec")
         self.closing = True
         self.readwrite_thread.join(0.1)
         self.open_file.close()
-        print("is_alive" + str(self.readwrite_thread.is_alive()))
-        print("stopping")
+        # print("is_alive" + str(self.readwrite_thread.is_alive()))
+        # print("stopping")

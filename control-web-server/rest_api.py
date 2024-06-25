@@ -26,10 +26,10 @@ router = APIRouter(prefix="/rest")
 
 inner_cam = StreamingCamera(0)
 outer_cam = StreamingCamera(1)
-streaming_sensor_array = StreamingSensorArray(sensor_fps=3)
+streaming_sensor_array = StreamingSensorArray(sensor_fps=30)
 
 data_recorder = DataRecorder(
-    chunk_timeframe_seconds=2,
+    chunk_timeframe_seconds=5,
     inner_cam=inner_cam,
     outer_cam=outer_cam,
     sensor_array=streaming_sensor_array,
@@ -50,7 +50,7 @@ def stop_recorder() -> bool:
 
 @router.get("/is-data-recording")
 def is_data_recording() -> bool:
-    return data_recorder.is_recording()
+    return data_recorder.is_recording
 
 
 @router.get("/inner-video-stream", response_class=StreamingResponse)

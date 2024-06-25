@@ -83,6 +83,7 @@ class DataRecorder:
     def trigger_filetransition(self):
         if not self.is_recording:
             return
+        self.is_recording = False
         self.chunk_idx = self.chunk_idx + 1
         innercam_filename = self.make_filename(rec_content=RECORDING_CONTENT.INNER)
         outercam_filename = self.make_filename(rec_content=RECORDING_CONTENT.OUTER)
@@ -93,10 +94,11 @@ class DataRecorder:
         self.inner_cam.start_recording(innercam_filename)
         self.outer_cam.start_recording(outercam_filename)
         self.sensor_array.start_recording(sensors_filename)
+        self.is_recording = True
         # print("transitioning file") # printing takes CPU time and leads to frame drops, only for debugging
 
     def trigger_stop(self):
-        print("trigger stop")
+        # print("trigger stop")
         if not self.is_recording:
             raise ValueError("tried to stop recording while system is not recording")
         self.inner_cam.stop_recording()

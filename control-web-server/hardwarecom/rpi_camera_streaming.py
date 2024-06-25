@@ -55,6 +55,7 @@ class StreamingCamera:
         self.picam2.start_encoder(self.recording_encoder, output, name="main")
 
     def stop_recording(self):
+        # if self.recording_encoder._running:
         self.picam2.stop_encoder(self.recording_encoder)
 
     def get_frame(self):
