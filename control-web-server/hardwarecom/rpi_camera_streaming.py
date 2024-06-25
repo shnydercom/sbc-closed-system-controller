@@ -40,6 +40,7 @@ class StreamingCamera:
             )
         )
         self.picam2.set_controls({"AfMode": controls.AfModeEnum.Continuous})
+        # self.picam2.autofocus_cycle()
         self.web_streaming_output = StreamingOutput()
         self.recording_encoder = H264Encoder(10000000, framerate=30, iperiod=30)
         self.picam2.pre_callback = self._apply_timestamp
@@ -52,14 +53,21 @@ class StreamingCamera:
         with MappedArray(request, "main") as m:
             cv2.putText(m.array, timestamp, origin, font, scale, colour, thickness)
 
+    def auto_focus(self):
+        self.picam2.autofocus_cycle()
+
     def start_recording(self, output_filename):
         pts_output_filename = output_filename + "_pts.pts"
-        output = FfmpegOutput(output_filename + ".mp4", pts=pts_output_filename)
-        self.picam2.start_encoder(self.recording_encoder, output, name="main")
+        self.picam2.start_recording(
+            self.recording_encoder, output_filename + ".h264", pts=pts_output_filename
+        )
+        # output = FfmpegOutput(output_filename + ".mp4", pts=pts_output_filename)
+        # self.picam2.start_encoder(self.recording_encoder, output, name="main")
 
     def stop_recording(self):
         if self.recording_encoder._running:
-            self.picam2.stop_encoder(self.recording_encoder)
+            self.picam2.stop_recording()
+            # self.picam2.stop_encoder(self.recording_encoder)
 
     def get_frame(self):
         try:

@@ -98,6 +98,9 @@ class DataRecorder:
         self.outer_cam.start_recording(outercam_filename)
         self.sensor_array.start_recording(sensors_filename)
         self._is_recording_internal = True
+        # run autofocus
+        # self.inner_cam.auto_focus()
+        # self.outer_cam.auto_focus()
         # print("transitioning file") # printing takes CPU time and leads to frame drops, only for debugging
 
     def trigger_stop(self):
