@@ -57,7 +57,7 @@ class StreamingCamera:
         self.picam2.autofocus_cycle()
 
     def start_recording(self, output_filename):
-        pts_output_filename = output_filename + "_pts.pts"
+        pts_output_filename = output_filename + "_pts.txt"
         self.picam2.start_recording(
             self.recording_encoder, output_filename + ".h264", pts=pts_output_filename
         )
