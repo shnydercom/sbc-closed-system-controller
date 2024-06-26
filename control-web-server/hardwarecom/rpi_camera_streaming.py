@@ -58,16 +58,17 @@ class StreamingCamera:
 
     def start_recording(self, output_filename):
         pts_output_filename = output_filename + "_pts.txt"
-        self.picam2.start_recording(
-            self.recording_encoder, output_filename + ".h264", pts=pts_output_filename
-        )
-        # output = FfmpegOutput(output_filename + ".mp4", pts=pts_output_filename)
-        # self.picam2.start_encoder(self.recording_encoder, output, name="main")
+        # self.picam2.start_recording(
+        #    self.recording_encoder, output_filename + ".h264", pts=pts_output_filename
+        # )
+        # output = FileOutput(output_filename + ".mp4", pts=pts_output_filename)
+        output = FileOutput(output_filename + ".h264", pts=pts_output_filename)
+        self.picam2.start_encoder(self.recording_encoder, output, name="main")
 
     def stop_recording(self):
         if self.recording_encoder._running:
-            self.picam2.stop_recording()
-            # self.picam2.stop_encoder(self.recording_encoder)
+            # self.picam2.stop_recording()
+            self.picam2.stop_encoder(self.recording_encoder)
 
     def get_frame(self):
         try:

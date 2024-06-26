@@ -85,14 +85,19 @@ def combine_mkvs(output_filepaths: List[str]):
             return result
 
         sorted_filtered_chunkpaths = list(filter(begins_with, output_filepaths))
-        sorted_filtered_chunkpaths.sort()
+        # sorted_filtered_chunkpaths.sort()
         sorted_filtered_chunkpaths = list(
-            map(lambda a: a + ".mkv", sorted_filtered_chunkpaths)
+            map(lambda a: "+" + a + ".mkv", sorted_filtered_chunkpaths)
         )
-        files_to_append_arg = " + ".join(sorted_filtered_chunkpaths)
+        sorted_filtered_chunkpaths[0] = sorted_filtered_chunkpaths[0].removeprefix("+")
         # appending mkv files together: https://mkvtoolnix.download/doc/mkvmerge.html#mkvmerge.description.plus_sign
         subprocess.run(
-            ["mkvmerge", "-o", path_beginning + "_full.mkv", files_to_append_arg]
+            [
+                "mkvmerge",
+                "-o",
+                path_beginning + "_full.mkv",
+                *sorted_filtered_chunkpaths,
+            ]
         )
     print("Script completed")
 

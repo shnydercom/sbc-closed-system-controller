@@ -29,7 +29,7 @@ outer_cam = StreamingCamera(1)
 streaming_sensor_array = StreamingSensorArray(sensor_fps=30)
 
 data_recorder = DataRecorder(
-    chunk_timeframe_seconds=5,
+    chunk_timeframe_seconds=10,
     inner_cam=inner_cam,
     outer_cam=outer_cam,
     sensor_array=streaming_sensor_array,

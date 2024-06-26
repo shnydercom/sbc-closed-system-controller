@@ -63,7 +63,7 @@ class DataRecorder:
             + "/"
             + self.recorder_start_datetime
             + rec_content
-            + str(self.chunk_idx)
+            + f"{self.chunk_idx:06d}"
         )
         return filename
 
