@@ -1,6 +1,7 @@
 from ffmpeg import FFmpeg
 import os
 import subprocess
+from typing import List, Set
 
 # import pymkv
 
@@ -20,6 +21,8 @@ def main():
     if not os.path.exists(output_folder):
         os.mkdir(output_folder)
 
+    output_filepaths: List[str] = []
+
     for file in os.listdir(directory):
         filename = os.fsdecode(file)
         if filename.endswith(".h264"):
@@ -30,6 +33,7 @@ def main():
                 DATE_FOLDER, MKV_FOLDER
             )
             convert_h264_to_mkv(h264_path, pts_path, output_path_and_filename)
+            output_filepaths.append(output_path_and_filename)
             """fullpath = os.path.join(os.fsdecode(directory), filename)
             exec_single_file(
                 fullpath,
@@ -37,6 +41,8 @@ def main():
             continue
         else:
             continue
+    output_filepaths.sort()
+    combine_mkvs(output_filepaths)
 
 
 def convert_h264_to_mkv(h264_file, pts_file, output_file):
@@ -62,7 +68,33 @@ def convert_h264_to_mkv(h264_file, pts_file, output_file):
             h264_file,
         ]
     )
-    print(f"Conversion successful! Output saved as {output_file}")
+
+
+def combine_mkvs(output_filepaths: List[str]):
+    def splitpop(input: str):
+        split_str = input.split("_")
+        split_str.pop()
+        return "_".join(split_str)
+
+    unique_filepaths_without_index: Set[str] = set(map(splitpop, output_filepaths))
+    print(unique_filepaths_without_index)
+    for path_beginning in unique_filepaths_without_index:
+
+        def begins_with(path: str):
+            result = path.startswith(path_beginning)
+            return result
+
+        sorted_filtered_chunkpaths = list(filter(begins_with, output_filepaths))
+        sorted_filtered_chunkpaths.sort()
+        sorted_filtered_chunkpaths = list(
+            map(lambda a: a + ".mkv", sorted_filtered_chunkpaths)
+        )
+        files_to_append_arg = " + ".join(sorted_filtered_chunkpaths)
+        # appending mkv files together: https://mkvtoolnix.download/doc/mkvmerge.html#mkvmerge.description.plus_sign
+        subprocess.run(
+            ["mkvmerge", "-o", path_beginning + "_full.mkv", files_to_append_arg]
+        )
+    print("Script completed")
 
 
 # didn't get this to work on rpi5
