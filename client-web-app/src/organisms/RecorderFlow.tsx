@@ -5,7 +5,7 @@ import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import { useIsDataRecordingQuery, useLazyStartRecorderQuery, useLazyStopRecorderQuery } from "../store/rtkQueryClientApi";
 
 export const RecorderFlow = () => {
-	const isRecordingQ = useIsDataRecordingQuery(undefined, { pollingInterval: 300 })
+	const isRecordingQ = useIsDataRecordingQuery(undefined, { pollingInterval: 500 })
 	const [triggerRecordingStart, _recordingStartQ] = useLazyStartRecorderQuery()
 	const [triggerRecordingStop, _recordingStopQ] = useLazyStopRecorderQuery();
 	const handleChange = () => {

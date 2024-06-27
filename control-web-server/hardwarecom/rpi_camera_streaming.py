@@ -3,6 +3,7 @@ from threading import Condition
 from picamera2 import Picamera2
 from picamera2.encoders import JpegEncoder, H264Encoder
 from picamera2.outputs import FileOutput, FfmpegOutput
+from picamera2.encoders import Quality
 from libcamera import controls
 
 from datetime import datetime, UTC
@@ -39,13 +40,21 @@ class StreamingCamera:
                 lores={"size": (320, 240), "format": "RGB888"},
             )
         )
-        self.picam2.set_controls({"AfMode": controls.AfModeEnum.Continuous})
+        self.picam2.set_controls(
+            {"AfMode": controls.AfModeEnum.Continuous, "FrameRate": 30}
+        )
         # self.picam2.autofocus_cycle()
         self.web_streaming_output = StreamingOutput()
-        self.recording_encoder = H264Encoder(10000000, framerate=30, iperiod=30)
+        self.recording_encoder = H264Encoder(framerate=30, iperiod=30)
+        self.streaming_encoder = JpegEncoder()
         self.picam2.pre_callback = self._apply_timestamp
         self.picam2.start_recording(
-            JpegEncoder(), FileOutput(self.web_streaming_output), name="lores"
+            # self.picam2.start()
+            # self.picam2.start_encoder(
+            self.streaming_encoder,
+            FileOutput(self.web_streaming_output),
+            name="lores",
+            quality=Quality.LOW,
         )
 
     def _apply_timestamp(self, request):
@@ -58,17 +67,38 @@ class StreamingCamera:
 
     def start_recording(self, output_filename):
         pts_output_filename = output_filename + "_pts.txt"
-        # self.picam2.start_recording(
-        #    self.recording_encoder, output_filename + ".h264", pts=pts_output_filename
-        # )
+        self.picam2.start_recording(
+            self.recording_encoder,
+            output_filename + ".h264",
+            pts=pts_output_filename,
+            quality=Quality.MEDIUM,
+        )
+        """
+        if not self.streaming_encoder._running:
+            self.picam2.start_encoder(
+                self.streaming_encoder,
+                FileOutput(self.web_streaming_output),
+                quality=Quality.LOW,
+                name="lores",
+            )"""
         # output = FileOutput(output_filename + ".mp4", pts=pts_output_filename)
-        output = FileOutput(output_filename + ".h264", pts=pts_output_filename)
-        self.picam2.start_encoder(self.recording_encoder, output, name="main")
+        # output = FileOutput(output_filename + ".h264", pts=pts_output_filename)
+        # self.picam2.start_encoder(self.recording_encoder, output, name="main")
 
     def stop_recording(self):
-        if self.recording_encoder._running:
-            # self.picam2.stop_recording()
-            self.picam2.stop_encoder(self.recording_encoder)
+        self.picam2.stop_recording()
+        if not self.streaming_encoder._running:
+            self.picam2.start_recording(
+                self.streaming_encoder,
+                FileOutput(self.web_streaming_output),
+                quality=Quality.LOW,
+                name="lores",
+            )
+        # if self.recording_encoder._running:
+        # self.picam2.stop_recording()
+        #    self.picam2.stop_encoder(self.recording_encoder)
+        # if self.streaming_encoder._running:
+        #    self.picam2.stop_encoder(self.streaming_encoder)
 
     def get_frame(self):
         try:

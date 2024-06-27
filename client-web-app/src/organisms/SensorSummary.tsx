@@ -5,9 +5,9 @@ import { useCurrentSensorQuery, useAccelerometerGyroSensorQuery, useSystemHealth
 
 export const SensorSummary = () => {
 	const sensorReadings: MomentSensorReadingsProps[] = [];
-	const currentSensorQ = useCurrentSensorQuery(undefined, { pollingInterval: 300 });
-	const accelerometerQ = useAccelerometerGyroSensorQuery(undefined, { pollingInterval: 300 });
-	const systemHealthQ = useSystemHealthSensorsQuery(undefined, {pollingInterval: 1000})
+	const currentSensorQ = useCurrentSensorQuery(undefined, { pollingInterval: 500 });
+	const accelerometerQ = useAccelerometerGyroSensorQuery(undefined, { pollingInterval: 2000 });
+	const systemHealthQ = useSystemHealthSensorsQuery(undefined, {pollingInterval: 2000})
 	const solarChargerQ = useSolarChargerQuery(undefined, {pollingInterval: 2000});
 
 	if (currentSensorQ.isSuccess) {
