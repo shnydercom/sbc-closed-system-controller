@@ -1,3 +1,4 @@
 . .venv/bin/activate
 cd ./control-web-server
-fastapi run main.py --host=0.0.0.0
+# https://unix.stackexchange.com/questions/170572/what-is-in-a-shell-script
+fastapi run main.py --host=0.0.0.0 &>> lastLog.txt  

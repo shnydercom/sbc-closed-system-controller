@@ -15,3 +15,4 @@ When you need to throw a raspberry pi under water and control it over wifi
 - detecting i2c: `i2cdetect -y 1`
 - installing latest picamera2 from the repository: `pip install git+https://github.com/raspberrypi/picamera2.git@next`
 - creating a symbolic link inside the static folder in the web server: ` ln -s ../../client-web-app/dist .`
+- checking system messages, reasons for unexpected shutdowns: `journalctl -S -10m --system`

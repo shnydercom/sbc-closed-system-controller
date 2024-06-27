@@ -9,8 +9,9 @@ from typing import List, Set
 # ffmpeg -i input.h264 -i input.pts -c:v copy -c:a aac -strict experimental output.mp4
 
 RECORDINGS = "recordings"
-DATE_FOLDER = "2024-06-26"
+DATE_FOLDER = "2024-06-27"
 MKV_FOLDER = "mkv"
+CSV_FOLDER = "csv"
 
 
 def main():
@@ -21,8 +22,23 @@ def main():
     if not os.path.exists(output_folder):
         os.mkdir(output_folder)
 
+    output_csv_folder = os.fsencode(RECORDINGS + "/" + CSV_FOLDER)
+    if not os.path.exists(output_csv_folder):
+        os.mkdir(output_csv_folder)
+
     output_filepaths: List[str] = []
 
+    # csv files
+    csv_files: List[str] = list()
+    for file in os.listdir(directory):
+        filename = os.fsdecode(file)
+        if filename.endswith(".csv"):
+            csv_fullpath = os.path.join(os.fsdecode(directory), filename)
+            csv_files.append(csv_fullpath)
+    csv_files.sort()
+    combine_csvs(csv_files, directory)
+
+    # video files
     for file in os.listdir(directory):
         filename = os.fsdecode(file)
         if filename.endswith(".h264"):
@@ -70,11 +86,44 @@ def convert_h264_to_mkv(h264_file, pts_file, output_file):
     )
 
 
+def splitpop(input: str):
+    split_str = input.split("_")
+    split_str.pop()
+    return "_".join(split_str)
+
+
+def combine_csvs(output_filepaths: List[str], directory: str):
+    unique_filepaths_without_index: Set[str] = set(map(splitpop, output_filepaths))
+    print(unique_filepaths_without_index)
+    for path_beginning in unique_filepaths_without_index:
+
+        def begins_with(path: str):
+            result = path.startswith(path_beginning)
+            return result
+
+        # overwrite existing
+        fullpath = path_beginning.replace(DATE_FOLDER, CSV_FOLDER) + "_full.csv"
+        column_line = ""
+        with open(output_filepaths[0], "r") as some_file:
+            column_line = some_file.readline()
+        if os.path.exists(fullpath):
+            os.remove(fullpath)
+        full_x_file = open(fullpath, "x")
+        full_x_file.write(column_line)
+        full_x_file.close()
+        sorted_filtered_chunkpaths = list(filter(begins_with, output_filepaths))
+        for chunkpath in sorted_filtered_chunkpaths:
+            with open(fullpath, "+a") as full_file:
+                chunk_file = open(chunkpath, "r")
+                content_without_columns = chunk_file.readlines()
+                if len(content_without_columns) == 0:
+                    continue
+                content_without_columns.pop(0)
+                full_file.writelines(content_without_columns)
+    print("combined csv files")
+
+
 def combine_mkvs(output_filepaths: List[str]):
-    def splitpop(input: str):
-        split_str = input.split("_")
-        split_str.pop()
-        return "_".join(split_str)
 
     unique_filepaths_without_index: Set[str] = set(map(splitpop, output_filepaths))
     print(unique_filepaths_without_index)
