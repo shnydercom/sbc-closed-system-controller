@@ -16,3 +16,4 @@ When you need to throw a raspberry pi under water and control it over wifi
 - installing latest picamera2 from the repository: `pip install git+https://github.com/raspberrypi/picamera2.git@next`
 - creating a symbolic link inside the static folder in the web server: ` ln -s ../../client-web-app/dist .`
 - checking system messages, reasons for unexpected shutdowns: `journalctl -S -10m --system`
+- running a web server on RPi startup: [RPi forums, pdf, section 4.4.4](https://forums.raspberrypi.com/viewtopic.php?t=314455)

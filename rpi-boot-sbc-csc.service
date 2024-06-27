@@ -1,0 +1,11 @@
+[Unit]
+Description=WebApp for controlling a closed system's sensor and camera recordings
+After=network.target
+
+[Service]
+WorkingDirectory=/home/piman/Desktop/prg/sbc-closed-system-controller
+ExecStart=/bin/bash /home/piman/Desktop/prg/sbc-closed-system-controller/startServer.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
