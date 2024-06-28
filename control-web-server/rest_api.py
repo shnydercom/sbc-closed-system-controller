@@ -1,3 +1,4 @@
+import os
 from typing import List
 from fastapi import APIRouter, Path
 from fastapi.responses import StreamingResponse
@@ -34,6 +35,12 @@ data_recorder = DataRecorder(
     outer_cam=outer_cam,
     sensor_array=streaming_sensor_array,
 )
+
+
+@router.get("/shutdown")
+def shut_system_down():
+    os.system("sudo shutdown")
+    return "shutting down"
 
 
 @router.get("/start-data-recording")

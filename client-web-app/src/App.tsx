@@ -15,7 +15,7 @@ function App() {
 	return (
 		<>
 			<AppBar position="static">
-				<Toolbar variant="dense">
+				<Toolbar variant="dense" sx={{justifyContent: "center"}}>
 					<RecorderFlow />
 				</Toolbar>
 			</AppBar>
