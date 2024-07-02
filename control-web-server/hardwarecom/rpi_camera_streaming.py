@@ -33,29 +33,33 @@ thickness = 1
 
 class StreamingCamera:
     def __init__(self, camera_idx):
-        self.picam2 = Picamera2(camera_idx)
-        self.picam2.configure(
-            self.picam2.create_video_configuration(
-                main={"size": (1920, 1080), "format": "YUV420"},
-                lores={"size": (320, 240), "format": "RGB888"},
+        try:
+            self.picam2 = Picamera2(camera_idx)
+            self.picam2.configure(
+                self.picam2.create_video_configuration(
+                    main={"size": (1920, 1080), "format": "YUV420"},
+                    lores={"size": (320, 240), "format": "RGB888"},
+                )
             )
-        )
-        self.picam2.set_controls(
-            {"AfMode": controls.AfModeEnum.Continuous, "FrameRate": 30}
-        )
-        # self.picam2.autofocus_cycle()
-        self.web_streaming_output = StreamingOutput()
-        self.recording_encoder = H264Encoder(framerate=30, iperiod=30)
-        self.streaming_encoder = JpegEncoder()
-        self.picam2.pre_callback = self._apply_timestamp
-        self.picam2.start_recording(
-            # self.picam2.start()
-            # self.picam2.start_encoder(
-            self.streaming_encoder,
-            FileOutput(self.web_streaming_output),
-            name="lores",
-            quality=Quality.LOW,
-        )
+            self.picam2.set_controls(
+                {"AfMode": controls.AfModeEnum.Continuous, "FrameRate": 30}
+            )
+            # self.picam2.autofocus_cycle()
+            self.web_streaming_output = StreamingOutput()
+            self.recording_encoder = H264Encoder(framerate=30, iperiod=30)
+            self.streaming_encoder = JpegEncoder()
+            self.picam2.pre_callback = self._apply_timestamp
+            self.picam2.start_recording(
+                # self.picam2.start()
+                # self.picam2.start_encoder(
+                self.streaming_encoder,
+                FileOutput(self.web_streaming_output),
+                name="lores",
+                quality=Quality.LOW,
+            )
+        except Exception as e:
+            print("error while initialising streamingcamera")
+            print(e)
 
     def _apply_timestamp(self, request):
         timestamp = datetime.now(UTC).strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
