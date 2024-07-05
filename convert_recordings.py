@@ -9,7 +9,7 @@ from typing import List, Set
 # ffmpeg -i input.h264 -i input.pts -c:v copy -c:a aac -strict experimental output.mp4
 
 RECORDINGS = "recordings"
-DATE_FOLDER = "2024-06-27"
+DATE_FOLDER = "2024-07-05"
 MKV_FOLDER = "mkv"
 CSV_FOLDER = "csv"
 

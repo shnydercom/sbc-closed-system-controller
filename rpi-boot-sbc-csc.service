@@ -6,6 +6,7 @@ After=network.target
 WorkingDirectory=/home/piman/Desktop/prg/sbc-closed-system-controller
 ExecStart=/bin/bash /home/piman/Desktop/prg/sbc-closed-system-controller/startServer.sh
 Restart=always
+User=piman
 
 [Install]
 WantedBy=multi-user.target
