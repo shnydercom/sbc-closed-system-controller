@@ -9,7 +9,7 @@ from typing import List, Set
 # ffmpeg -i input.h264 -i input.pts -c:v copy -c:a aac -strict experimental output.mp4
 
 RECORDINGS = "recordings"
-DATE_FOLDER = "2024-07-05"
+DATE_FOLDER = "2024-07-10"
 MKV_FOLDER = "mkv"
 CSV_FOLDER = "csv"
 
@@ -46,7 +46,7 @@ def main():
             pts_path = h264_path.replace(".h264", "_pts.txt")
             output_path_and_filename = h264_path.replace(".h264", "")
             output_path_and_filename = output_path_and_filename.replace(
-                DATE_FOLDER, MKV_FOLDER
+                DATE_FOLDER, MKV_FOLDER, 1
             )
             convert_h264_to_mkv(h264_path, pts_path, output_path_and_filename)
             output_filepaths.append(output_path_and_filename)
@@ -102,7 +102,7 @@ def combine_csvs(output_filepaths: List[str], directory: str):
             return result
 
         # overwrite existing
-        fullpath = path_beginning.replace(DATE_FOLDER, CSV_FOLDER) + "_full.csv"
+        fullpath = path_beginning.replace(DATE_FOLDER, CSV_FOLDER, 1) + "_full.csv"
         column_line = ""
         with open(output_filepaths[0], "r") as some_file:
             column_line = some_file.readline()
