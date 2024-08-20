@@ -1,6 +1,30 @@
 import { emptySplitApi as api } from "./emptyApi";
 const injectedRtkApi = api.injectEndpoints({
   endpoints: (build) => ({
+    startRecorder: build.query<StartRecorderApiResponse, StartRecorderApiArg>({
+      query: () => ({ url: `/rest/start-data-recording` }),
+    }),
+    stopRecorder: build.query<StopRecorderApiResponse, StopRecorderApiArg>({
+      query: () => ({ url: `/rest/stop-data-recording` }),
+    }),
+    isDataRecording: build.query<
+      IsDataRecordingApiResponse,
+      IsDataRecordingApiArg
+    >({
+      query: () => ({ url: `/rest/is-data-recording` }),
+    }),
+    innerVideoStream: build.query<
+      InnerVideoStreamApiResponse,
+      InnerVideoStreamApiArg
+    >({
+      query: () => ({ url: `/rest/inner-video-stream` }),
+    }),
+    outerVideoStream: build.query<
+      OuterVideoStreamApiResponse,
+      OuterVideoStreamApiArg
+    >({
+      query: () => ({ url: `/rest/outer-video-stream` }),
+    }),
     systemHealthSensors: build.query<
       SystemHealthSensorsApiResponse,
       SystemHealthSensorsApiArg
@@ -104,6 +128,19 @@ const injectedRtkApi = api.injectEndpoints({
   overrideExisting: false,
 });
 export { injectedRtkApi as rtkQueryClientApi };
+export type StartRecorderApiResponse =
+  /** status 200 Successful Response */ boolean;
+export type StartRecorderApiArg = void;
+export type StopRecorderApiResponse =
+  /** status 200 Successful Response */ boolean;
+export type StopRecorderApiArg = void;
+export type IsDataRecordingApiResponse =
+  /** status 200 Successful Response */ boolean;
+export type IsDataRecordingApiArg = void;
+export type InnerVideoStreamApiResponse = unknown;
+export type InnerVideoStreamApiArg = void;
+export type OuterVideoStreamApiResponse = unknown;
+export type OuterVideoStreamApiArg = void;
 export type SystemHealthSensorsApiResponse =
   /** status 200 Successful Response */ SystemHealthReading;
 export type SystemHealthSensorsApiArg = void;
@@ -220,6 +257,16 @@ export type PanTilt = {
   tilt?: number;
 };
 export const {
+  useStartRecorderQuery,
+  useLazyStartRecorderQuery,
+  useStopRecorderQuery,
+  useLazyStopRecorderQuery,
+  useIsDataRecordingQuery,
+  useLazyIsDataRecordingQuery,
+  useInnerVideoStreamQuery,
+  useLazyInnerVideoStreamQuery,
+  useOuterVideoStreamQuery,
+  useLazyOuterVideoStreamQuery,
   useSystemHealthSensorsQuery,
   useLazySystemHealthSensorsQuery,
   useSolarChargerQuery,

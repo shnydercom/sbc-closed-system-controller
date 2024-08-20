@@ -2,7 +2,7 @@ import { FormControlLabel, Stack, Switch, Typography } from "@mui/material";
 import { useCoolerStrengthQuery, useLazySwitchCoolerOffQuery, useLazySwitchCoolerOnQuery } from "../store/rtkQueryClientApi"
 
 export const ExtraFanControl = () => {
-	const coolerStrengthQ = useCoolerStrengthQuery(undefined, { pollingInterval: 500 })
+	const coolerStrengthQ = useCoolerStrengthQuery(undefined, { pollingInterval: 5000 })
 	const [triggerCoolerOff, _coolerOffQ] = useLazySwitchCoolerOffQuery()
 	const [triggerCoolerOn, _coolerOnQ] = useLazySwitchCoolerOnQuery();
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

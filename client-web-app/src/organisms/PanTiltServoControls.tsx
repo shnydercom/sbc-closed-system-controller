@@ -52,7 +52,7 @@ export function PanTiltServoControls() {
 				triggerTiltBy({ relativeangle: tilt })
 			},
 			gridContainerStyles: {
-				width: "500px",
+				width: "300px",
 				height: "300px"
 			}
 		}

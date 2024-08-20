@@ -1,17 +1,29 @@
-import { Paper, Stack } from '@mui/material';
-import { PanTiltServoControls, LEDControls, SensorSummary, ExtraFanControl, VideoDisplays } from './organisms';
+import { AppBar, Paper, Stack, Toolbar } from '@mui/material';
+import { PanTiltServoControls, LEDControls, SensorSummary, ExtraFanControl, VideoDisplays, RecorderFlow } from './organisms';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
+/*
+<h1>Single Board Computer - Closed System Controller</h1>
+*/
 
 function App() {
-
+	const matches = useMediaQuery('(min-width:600px)');
+	const PaperOrNoPaper = matches
+		? (props: React.PropsWithChildren<{}>) =>
+			<Paper sx={{ margin: 1 }}>{props.children}</Paper>
+		: (props: React.PropsWithChildren<{}>) => <>{props.children}</>
 	return (
 		<>
-			<Paper sx={{ marginLeft: 1, marginRight: 1, padding: 2 }}>
-				<h1>Single Board Computer - Closed System Controller</h1>
-				<Stack direction="row" gap={2} flexWrap={'wrap'}>
+			<AppBar position="static">
+				<Toolbar variant="dense" sx={{justifyContent: "center"}}>
+					<RecorderFlow />
+				</Toolbar>
+			</AppBar>
+			<PaperOrNoPaper>
+				<Stack direction="row" gap={2} flexWrap={'wrap'} padding={2}>
 					<Stack direction="column" gap={1}>
 						<PanTiltServoControls />
-						<VideoDisplays/>
+						<VideoDisplays />
 						<LEDControls />
 						<ExtraFanControl />
 					</Stack>
@@ -19,7 +31,7 @@ function App() {
 						<SensorSummary />
 					</Stack>
 				</Stack>
-			</Paper>
+			</PaperOrNoPaper>
 		</>
 	)
 }

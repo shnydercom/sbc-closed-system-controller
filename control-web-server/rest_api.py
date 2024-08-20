@@ -1,3 +1,4 @@
+import os
 from typing import List
 from fastapi import APIRouter, Path
 from fastapi.responses import StreamingResponse
@@ -7,6 +8,8 @@ import hardwarecom.i2c_sensor_current_ina219_adafruit904 as currentSensor
 import hardwarecom.rpi_servohat_led_pwm_adafruit2327 as ledpwm
 import hardwarecom.rpi_gpiozero_sensors_cputemp as gpio_sensors_cputemp
 from hardwarecom.rpi_camera_streaming import StreamingCamera
+from data_recorder import DataRecorder
+from hardwarecom.sensorarray_streaming import StreamingSensorArray
 
 # from hardwarecom.rpi_camera_module3 import StreamRecorderCamera
 from interfaces import (
@@ -24,6 +27,37 @@ router = APIRouter(prefix="/rest")
 
 inner_cam = StreamingCamera(0)
 outer_cam = StreamingCamera(1)
+streaming_sensor_array = StreamingSensorArray(sensor_fps=30)
+
+data_recorder = DataRecorder(
+    chunk_timeframe_seconds=10,
+    inner_cam=inner_cam,
+    outer_cam=outer_cam,
+    sensor_array=streaming_sensor_array,
+)
+
+
+@router.get("/shutdown")
+def shut_system_down():
+    os.system("sudo shutdown")
+    return "shutting down"
+
+
+@router.get("/start-data-recording")
+def start_recorder() -> bool:
+    data_recorder.trigger_start()
+    return True
+
+
+@router.get("/stop-data-recording")
+def stop_recorder() -> bool:
+    data_recorder.trigger_stop()
+    return True
+
+
+@router.get("/is-data-recording")
+def is_data_recording() -> bool:
+    return data_recorder.is_recording_external
 
 
 @router.get("/inner-video-stream", response_class=StreamingResponse)

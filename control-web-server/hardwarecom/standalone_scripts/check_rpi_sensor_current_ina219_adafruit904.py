@@ -40,11 +40,11 @@ print("")
 # exit()
 """
 # optional : change configuration to use 32 samples averaging for both bus voltage and shunt voltage
-ina219A.bus_adc_resolution = ADCResolution.ADCRES_12BIT_32S
-ina219A.shunt_adc_resolution = ADCResolution.ADCRES_12BIT_32S
+# ina219A.bus_adc_resolution = ADCResolution.ADCRES_12BIT_2S
+# ina219A.shunt_adc_resolution = ADCResolution.ADCRES_12BIT_2S
 # optional : change voltage range to 16V
-ina219A.bus_voltage_range = BusVoltageRange.RANGE_16V
-ina219A.set_calibration_16V_400mA()
+# ina219A.bus_voltage_range = BusVoltageRange.RANGE_16V
+# ina219A.set_calibration_16V_5A()
 """
 # optional : change configuration to use 32 samples averaging for both bus voltage and shunt voltage
 ina219B.bus_adc_resolution = ADCResolution.ADCRES_12BIT_32S
@@ -61,15 +61,18 @@ while True:
     shunt_voltageA = ina219A.shunt_voltage  # voltage between V+ and V- across the shunt
     currentA = ina219A.current  # current in mA
     powerA = ina219A.power  # power in watts
+    raw_current = ina219A.raw_current
 
     # ina219A measure bus voltage on the load side. So PSU voltage = bus_voltage + shunt_voltage
     print("A:")
     print("Voltage (VIN+) : {:6.3f}   V".format(bus_voltageA + shunt_voltageA))
     print("Voltage (VIN-) : {:6.3f}   V".format(bus_voltageA))
     print("Shunt Voltage  : {:8.5f} V".format(shunt_voltageA))
-    print("Shunt Current  : {:7.4f}  A".format(currentA / 1000))
+    print("Shunt Current  : {:7.5f}  mA".format(currentA))
     print("Power Calc.    : {:8.5f} W".format(bus_voltageA * (currentA / 1000)))
     print("Power Register : {:6.3f}   W".format(powerA))
+
+    print("Raw current    : {:6.5f}   mA".format(raw_current))
     print("B:")
 
     # Check internal calculations haven't overflowed (doesn't detect ADC overflows)
@@ -101,4 +104,4 @@ while True:
         print("Internal Math Overflow Detected!")
         print("")
     """
-    time.sleep(0.2)
+    time.sleep(0.1)

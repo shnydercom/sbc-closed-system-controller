@@ -5,9 +5,9 @@ import { useCurrentSensorQuery, useAccelerometerGyroSensorQuery, useSystemHealth
 
 export const SensorSummary = () => {
 	const sensorReadings: MomentSensorReadingsProps[] = [];
-	const currentSensorQ = useCurrentSensorQuery(undefined, { pollingInterval: 300 });
-	const accelerometerQ = useAccelerometerGyroSensorQuery(undefined, { pollingInterval: 300 });
-	const systemHealthQ = useSystemHealthSensorsQuery(undefined, {pollingInterval: 1000})
+	const currentSensorQ = useCurrentSensorQuery(undefined, { pollingInterval: 500 });
+	const accelerometerQ = useAccelerometerGyroSensorQuery(undefined, { pollingInterval: 2000 });
+	const systemHealthQ = useSystemHealthSensorsQuery(undefined, {pollingInterval: 2000})
 	const solarChargerQ = useSolarChargerQuery(undefined, {pollingInterval: 2000});
 
 	if (currentSensorQ.isSuccess) {
@@ -20,7 +20,8 @@ export const SensorSummary = () => {
 	}
 	if ( systemHealthQ.isSuccess) {
 		const systemHealthFormatted = formatValuesToString(systemHealthQ.data);
-		sensorReadings.push({ sensorHeading: "system health (CPU temp, usage)", readings: systemHealthFormatted})
+		const isWarning = systemHealthQ.data.cpu_temp > 48;
+		sensorReadings.push({ sensorHeading: "system health (CPU temp, usage)", readings: systemHealthFormatted, isWarning})
 	}
 	if ( solarChargerQ.isSuccess) {
 		const solarChargingFormatted = formatValuesToString(solarChargerQ.data);
@@ -35,6 +36,7 @@ export const SensorSummary = () => {
 						key={`sensor-${idx}`}
 						sensorHeading={sensorReading.sensorHeading}
 						readings={sensorReading.readings}
+						isWarning={sensorReading.isWarning}
 					/>
 				})
 			}

@@ -1,10 +1,15 @@
 import io
 from threading import Condition
 from picamera2 import Picamera2
-from picamera2.encoders import JpegEncoder
-from picamera2.outputs import FileOutput
+from picamera2.encoders import JpegEncoder, H264Encoder
+from picamera2.outputs import FileOutput, FfmpegOutput
+from picamera2.encoders import Quality
+from libcamera import controls
 
-from picamera2 import Picamera2
+from datetime import datetime, UTC
+import cv2
+
+from picamera2 import Picamera2, MappedArray
 
 
 class StreamingOutput(io.BufferedIOBase):
@@ -18,21 +23,93 @@ class StreamingOutput(io.BufferedIOBase):
             self.condition.notify_all()
 
 
+# timestamp on the recordings in the top right corner
+colour = (255, 255, 255)
+origin = (0, 8)
+font = cv2.FONT_HERSHEY_PLAIN
+scale = 0.5
+thickness = 1
+
+
 class StreamingCamera:
-    def __init__(self, camera_num):
-        self.picam2 = Picamera2(camera_num)
-        self.picam2.configure(
-            self.picam2.create_video_configuration(main={"size": (320, 240)})
+    def __init__(self, camera_idx):
+        try:
+            self.picam2 = Picamera2(camera_idx)
+            self.picam2.configure(
+                self.picam2.create_video_configuration(
+                    main={"size": (1920, 1080), "format": "YUV420"},
+                    lores={"size": (320, 240), "format": "RGB888"},
+                )
+            )
+            self.picam2.set_controls(
+                {"AfMode": controls.AfModeEnum.Continuous, "FrameRate": 30}
+            )
+            # self.picam2.autofocus_cycle()
+            self.web_streaming_output = StreamingOutput()
+            self.recording_encoder = H264Encoder(framerate=30, iperiod=30)
+            self.streaming_encoder = JpegEncoder()
+            self.picam2.pre_callback = self._apply_timestamp
+            self.picam2.start_recording(
+                # self.picam2.start()
+                # self.picam2.start_encoder(
+                self.streaming_encoder,
+                FileOutput(self.web_streaming_output),
+                name="lores",
+                quality=Quality.LOW,
+            )
+        except Exception as e:
+            print("error while initialising streamingcamera")
+            print(e)
+
+    def _apply_timestamp(self, request):
+        timestamp = datetime.now(UTC).strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
+        with MappedArray(request, "main") as m:
+            cv2.putText(m.array, timestamp, origin, font, scale, colour, thickness)
+
+    def auto_focus(self):
+        self.picam2.autofocus_cycle()
+
+    def start_recording(self, output_filename):
+        pts_output_filename = output_filename + "_pts.txt"
+        self.picam2.start_recording(
+            self.recording_encoder,
+            output_filename + ".h264",
+            pts=pts_output_filename,
+            quality=Quality.MEDIUM,
         )
-        self.output = StreamingOutput()
-        self.picam2.start_recording(JpegEncoder(), FileOutput(self.output))
+        """
+        if not self.streaming_encoder._running:
+            self.picam2.start_encoder(
+                self.streaming_encoder,
+                FileOutput(self.web_streaming_output),
+                quality=Quality.LOW,
+                name="lores",
+            )"""
+        # output = FileOutput(output_filename + ".mp4", pts=pts_output_filename)
+        # output = FileOutput(output_filename + ".h264", pts=pts_output_filename)
+        # self.picam2.start_encoder(self.recording_encoder, output, name="main")
+
+    def stop_recording(self):
+        self.picam2.stop_recording()
+        if not self.streaming_encoder._running:
+            self.picam2.start_recording(
+                self.streaming_encoder,
+                FileOutput(self.web_streaming_output),
+                quality=Quality.LOW,
+                name="lores",
+            )
+        # if self.recording_encoder._running:
+        # self.picam2.stop_recording()
+        #    self.picam2.stop_encoder(self.recording_encoder)
+        # if self.streaming_encoder._running:
+        #    self.picam2.stop_encoder(self.streaming_encoder)
 
     def get_frame(self):
         try:
             while True:
-                with self.output.condition:
-                    self.output.condition.wait()
-                    frame = self.output.frame
+                with self.web_streaming_output.condition:
+                    self.web_streaming_output.condition.wait()
+                    frame = self.web_streaming_output.frame
 
                 ret = b"--FRAME\r\n"
                 ret += b"Content-Type: image/jpeg\r\n"

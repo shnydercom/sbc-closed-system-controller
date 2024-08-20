@@ -172,3 +172,5 @@ cython_debug/
 
 # ignoring the symbolic link to the dist (build-folder) of the client project
 dist
+
+recordings
