@@ -1,6 +1,9 @@
 # sbc-closed-system-controller
 When you need to throw a raspberry pi under water and control it over wifi
 
+# Intro-Article
+[boilerplate Raspberry Pi 5, 2 cameras, sensors and a webapp](https://dev.to/shnydercom/steal-my-boilerplate-rpi-5-2-cameras-sensors-webapp-3p55)
+
 # List of code-inspiration
 - [raspi-cam-srv](https://github.com/signag/raspi-cam-srv)
 - [octoprint](https://github.com/OctoPrint/OctoPrint)
